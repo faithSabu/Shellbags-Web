@@ -1,0 +1,119 @@
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper cart">
+
+        <!--breadcumb area start -->
+        <div class="breadcumb-area overlay pos-rltv">
+            <div class="bread-main">
+                <div class="bred-hading text-center">
+                    <h5>Details</h5>
+                </div>
+            </div>
+        </div>
+        <!--breadcumb area end -->
+
+
+        <!--cart-checkout-area start -->
+        {{#if orderHistoryDetails}}
+        <div class="cart-checkout-area  pt-30">
+            <div class="container">
+                <div class="row">
+                    <div class="product-area">
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12">
+                            <div class="content-tab-product-category pb-70">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="cart">
+                                        <!-- cart are start-->
+                                        <div class="cart-page-area">
+                                            <div class="table-responsive mb-20">
+                                                <table id="cartTable" class="shop_table-2 cart table">
+                                                    {{!-- <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail ">Image</th>
+                                                            <th class="product-name ">Product Name</th>
+                                                            <th class="product-price ">Ordered Price</th>
+                                                            <th class="product-quantity">Status</th>
+                                                        </tr>
+                                                    </thead> --}}
+                                                    {{else}}
+                                                    <!--breadcumb area start -->
+                                                    <div class="bred-hading text-center" style="margin-top: 10em;">
+                                                        <h1 style="color: black;">You haven't ordered anything yet
+                                                        </h1>
+                                                    </div>
+                                                    <!--breadcumb area end -->
+
+                                                    <div class="bred-hading text-center" style="margin-top: 7em;">
+                                                        <h3 style="color: black;">Place your first order with
+                                                            SHELLBAGS</h3>
+                                                    </div>
+
+
+                                                    {{/if}}
+                                                    <tbody>
+                                                        {{#each orderHistoryDetails}}
+                                                        <tr class="cart_item">
+                                                            {{#each this.product}}
+                                                            <td style="border: none; border-bottom: 1px solid black;"
+                                                                class="item-img">
+                                                                <a href="#"><img
+                                                                        src="/public-admin/product-images/{{this.images.[0]}}"
+                                                                        alt=""> </a>
+                                                            </td>
+                                                            <td style="border: none; border-bottom: 1px solid black; width: 400px; overflow: hidden;"
+                                                                class="item-title"> <a href="#">{{this.productName}}
+                                                                </a></td>
+                                                            {{/each}}
+                                                            {{#if this.orderedProducts.orderPrice}}
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                Rs. {{this.orderedProducts.orderPrice}}</td>
+                                                            {{else}}
+                                                            {{#each this.product}}
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.price}}</td>
+                                                            {{/each}}
+                                                            {{/if}}
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.status}}</td>
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.deliveryDetails.firstName}}
+                                                                {{this.deliveryDetails.lastName}},
+                                                                Mobile: {{this.deliveryDetails.phone}},<br>
+                                                                {{this.deliveryDetails.town}}, <br>
+                                                                {{this.deliveryDetails.pinCode}},
+                                                            </td>
+
+
+                                            </div>
+
+                                            </tr>
+                                            {{/each}}
+                                            </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- cart are end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--cart-checkout-area end-->
+
+
+
+    </div>
+    <!-- Body main wrapper end -->
+
+
+</body>

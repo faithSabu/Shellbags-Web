@@ -1,0 +1,148 @@
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper cart">
+
+        <!--breadcumb area start -->
+        <div class="breadcumb-area overlay pos-rltv">
+            <div class="bread-main">
+                <div class="bred-hading text-center">
+                    <h5>Order History</h5>
+                </div>
+            </div>
+        </div>
+        <!--breadcumb area end -->
+
+
+        <!--cart-checkout-area start -->
+        {{#if orderHistory}}
+        <div class="cart-checkout-area  pt-30">
+            <div class="container">
+                <div class="row">
+                    <div class="product-area">
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12">
+                            <div class="content-tab-product-category pb-70">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="cart">
+                                        <!-- cart are start-->
+                                        <div class="cart-page-area">
+                                            <div class="table-responsive mb-20">
+                                                <table id="cartTable" class="shop_table-2">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="product-thumbnail ">order Id</th>
+                                                            <th class="product-name ">No.of products</th>
+                                                            <th class="product-price ">TotalPrice</th>
+                                                            <th class="product-quantity">Payment Method</th>
+                                                            <th class="product-quantity">Date</th>
+                                                            <th class="product-quantity">Status</th>
+                                                            <th class="product-quantity">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    {{else}}
+                                                    <!--breadcumb area start -->
+                                                    <div class="bred-hading text-center" style="margin-top: 10em;">
+                                                        <h1 style="color: black;">You haven't ordered anything yet
+                                                        </h1>
+                                                    </div>
+                                                    <!--breadcumb area end -->
+
+                                                    <div class="bred-hading text-center" style="margin-top: 7em;">
+                                                        <h3 style="color: black;">Place your first order with
+                                                            SHELLBAGS</h3>
+                                                    </div>
+
+
+                                                    {{/if}}
+                                                    <tbody>
+                                                        {{#each orderHistory}}
+                                                        <tr class="cart_item">
+                                                            <td style="border: none; border-bottom: 1px solid black; "
+                                                                class="item-title"> <a href="#">{{this.orderId}}
+                                                                </a></td>
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.orderedProducts.length}} <br>
+                                                                <a href="/user/order-historyDetails/{{this._id}}" class="btn" style="color: #028b2e;">Details</a></td>
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.totalAmount}}</td>
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.paymentMethod}}</td>
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.date}}</td>
+
+                                                                
+                                                            
+                                                            {{#if this.orderedProducts.orderPrice}}
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.orderedProducts.orderPrice}}</td>
+                                                            {{else}}
+                                                            
+                                                            {{/if}}
+                                                            <td style="border: none; border-bottom: 1px solid black;">
+                                                                {{this.status}}</td>
+
+                                                            {{#if_eq this.status "Cancelled"}}
+                                                            <td style="border: none; border-bottom: 1px solid black;"><a
+                                                                    style="pointer-events: none; cursor: default; color: rgb(219, 211, 211);"
+                                                                    href="#" class="btn-def small">Order canceled</a>
+                                                            </td>
+                                                            {{else}}
+                                                            <td style="border: none; border-bottom: 1px solid black;"><a id="{{this._id}}"
+                                                                    onclick="cancelOrder('{{this._id}}')" class="btn-def small">Cancel order</a></td>
+                                                            {{/if_eq}}
+
+
+
+                                            </div>
+
+                                            </tr>
+                                            {{/each}}
+                                            </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- cart are end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--cart-checkout-area end-->
+
+
+
+    </div>
+    <!-- Body main wrapper end -->
+
+
+</body>
+
+
+<script>
+    function cancelOrder(orderId){
+        $.ajax({
+        type: 'POST',
+        url: '/user/cancelOrder',
+        data: {
+            orderId
+        },
+        success: function (data) {
+            if (data) {
+                location.reload()
+            } else {
+                swal('Payment failed')
+            }
+
+        }
+    });
+    }
+</script>

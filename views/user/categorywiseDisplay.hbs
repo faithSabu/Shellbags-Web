@@ -1,0 +1,176 @@
+      <!--breadcumb area start -->
+        <div class="breadcumb-area overlay pos-rltv">
+            <div class="bread-main">
+                <div class="bred-hading text-center">
+                    <h5>{{singleCategory.category}}</h5>
+                </div>
+            </div>
+        </div>
+        <!--breadcumb area end -->
+
+<div class="shop-main-area pb-70 pt-30">
+    <div class="container">
+        <div class="row">
+
+            <!--shop sidebar start-->
+            <div class="col-md-3 col-sm-4 col-xs-12">
+                <div class="row">
+                    <div class="shop-sidebar">
+                        <form id="filterForm" action="/user/filterProducts" method="post">
+                            <!--single aside start-->
+                            <aside class="single-aside catagories-aside">
+                                <div class="heading-title aside-title pos-rltv">
+                                    <h5 class="uppercase">{{singleCategory.category}}</h5>
+                                </div>
+                                <input type="text" name="category" id="" value="{{singleCategory.category}}" hidden>
+                                <input type="text" name="categoryId" id="" value="{{singleCategory._id}}" hidden>
+                                <div id="cat-treeview" class="product-cat">
+                                    <ul>
+                                        {{#each singleCategory.subCategory}}
+
+                                        <div class="checkbox checkbox-2">
+                                            <label>
+                                                <input id="subcategoryFilter" name="subcategoryFilter" value="{{this}}"
+                                                    type="checkbox">{{this}}
+                                            </label>
+                                            <br>
+                                        </div>
+
+                                        {{/each}}
+                                        {{!-- to convert as an arry --}}
+                                        {{!-- <input type="text" name="subcategoryFilter" value="" hidden>
+                                        <input type="text" name="subcategoryFilter" value="" hidden> --}}
+                                        {{!-- to convert as an arry --}}
+                                    </ul>
+                                    </ul>
+                                </div>
+                            </aside>
+                            <!--single aside end-->
+
+                            <!--single aside start-->
+                            <aside class="single-aside tag-aside">
+                                <div class="heading-title aside-title pos-rltv">
+                                    <h5 class="uppercase">Brands</h5>
+                                </div>
+                                <ul class="tag-filter mt-30">
+                                    {{#each brand}}
+                                    <div class="checkbox checkbox-2">
+                                        <label>
+                                            <input id="brandFilter" name="brandFilter" value="{{this}}"
+                                                type="checkbox">{{this}}
+                                        </label>
+                                        <br>
+                                    </div>
+                                    {{/each}}
+
+                                    {{!-- to convert as an arry --}}
+                                    {{!-- <input type="text" name="brandFilter" value="" hidden>
+                                    <input type="text" name="brandFilter" value="" hidden> --}}
+                                    {{!-- to convert as an arry --}}
+                                </ul>
+                            </aside>
+                            <button
+                                style="background-color: rgb(65, 61, 61); padding: .2em 1em; font-size: 1.4em; margin-top: 1em;">Filter</button>
+                            <!--single aside end-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--shop sidebar end-->
+
+
+            {{!--
+            <script>
+                $(document).ready(function (event) {
+                    $('#filterForm').on('submit', function (e) {
+                        e.preventDefault();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/user/filterProducts',
+                            data: $('#filterForm').serialize(),
+                            success: function (data) {
+                                alert('succ')
+                            }
+                        });
+                    });
+                });
+            </script> --}}
+
+
+
+            <!--main-shop-product start-->
+            <div class="col-md-9 col-sm-8 col-xs-12">
+                <div class="shop-wraper">
+                    <div class="clearfix"></div>
+                    <div class="shop-total-product-area clearfix mt-35">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <!--tab grid are start-->
+                            <div role="tabpanel" class="tab-pane fade in active" id="grid">
+                                <div class="total-shop-product-grid">
+                                    {{#if products}}
+                                    {{#each products}}
+                                    <div class="col-md-3">
+                                        <!-- single product start-->
+                                        <div class="single-product">
+                                            <div class="product-img">
+                                                {{!-- <div class="product-label">
+                                                    <div class="new">New</div>
+                                                </div> --}}
+
+                                                <div class="single-prodcut-img product-overlay pos-rltv"
+                                                    {{!--style="width: 15em; height: 25em;" --}}
+                                                    style="height: 350px; width: auto;">
+                                                    <a href="/user/singleProduct/{{this._id}}"> <img alt=""
+                                                            src="/public-admin/product-images/{{this.images.[0]}}"
+                                                            class="primary-image"
+                                                            style="height: 100%; object-fit: contain;"> <img alt=""
+                                                            src="images/product/02.jpg" class="secondary-image"> </a>
+                                                </div>
+
+                                                <div class="product-icon socile-icon-tooltip text-center">
+                                                    <ul>
+                                                        <li><a onclick="addToCart('{{this._id}}')"
+                                                                data-tooltip="Add To Cart" class="add-cart"
+                                                                data-placement="left"><i
+                                                                    class="fa fa-cart-plus"></i></a></li>
+                                                        <li><a onclick="addToWishlist('{{this._id}}')"
+                                                                data-tooltip="Wishlist" class="w-list"><i
+                                                                    class="fa fa-heart-o"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="product-text">
+                                                <div class="prodcut-name"> <a
+                                                        href="/user/singleProduct/{{this._id}}">{{this.productName}}</a>
+                                                </div>
+                                                <div class="prodcut-ratting-price">
+                                                    <div class="prodcut-price">
+                                                        <div class="new-price"> Rs.{{this.price}} </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- single product end-->
+                                    </div>
+                                    {{/each}}
+                                    {{else}}
+                                    <h2>No items matched your result</h2>
+                                    {{/if}}
+
+                                </div>
+                            </div>
+                            <!--shop grid are end-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--main-shop-product start-->
+        </div>
+    </div>
+</div>

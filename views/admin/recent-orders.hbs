@@ -1,0 +1,86 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<div class="container">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title" style="margin-top: 2.5em;">Order History</h4>
+                </p>
+                <table class="table table-hover" id="recentOrdersTable">
+                    <thead>
+                        <tr>
+                            <th>Order Id</th>
+                            <th>Users</th>
+                            <th style="text-align: center;">No. of Products</th>
+                            <th>Total Amount</th>
+                            <th>Payment Method</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each recentOrders}}
+                        <tr>
+                            <td>{{this.orderId}}</td>
+                            <td>{{this.user.[0].fullName}}</td>
+                            <td style="text-align: center;">{{this.orderedProducts.length}} <br>
+                                <a href="/admin/recentOrderDetails/{{this._id}}" class="btn" style="color: #028b2e;">Details</a></td>
+                            </td>
+                            <td>Rs. {{this.totalAmount}}</td>
+                            <td>{{this.paymentMethod}}</td>
+                            {{!-- <td><label class="btn btn-outline-dark">{{this.status}}</label></td> --}}
+                            <td> <select onchange="changeOrderStatus('{{this._id}}')" class="form-control" name="category" id="{{this._id}}">
+                                    <option value="">{{this.status}}</option>
+                                    {{#if_eq this.status "Order Placed"}}
+                                    <option value="Order Confirmed">Order Confirmed</option>
+                                    <option value="Cancelled">Cancel</option>
+                                    {{/if_eq}}
+                                    {{#if_eq this.status "Order Confirmed"}}
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Cancelled">Cancel</option>
+                                    {{/if_eq}}
+                                    {{#if_eq this.status "Shipped"}}
+                                    <option value="Out for Delivery">Out for Delivery</option>
+                                    <option value="Cancelled">Cancel</option>
+                                    {{/if_eq}}
+                                    {{#if_eq this.status "Out for Delivery"}}
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancel</option>
+                                    {{/if_eq}}
+                                    {{#if_eq this.status "Cancelled"}}
+                                    {{/if_eq}}
+                                </select></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function changeOrderStatus(orderId){
+       let newStatus = document.getElementById(orderId).value;
+    $.ajax({
+        type: 'POST',
+        url: '/admin/changeOrderStatus',
+        data: {
+            orderId,
+            newStatus
+        },
+        success: function (data) {
+           location.reload();
+
+        }
+    });
+}
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#recentOrdersTable').DataTable();
+    });
+</script>

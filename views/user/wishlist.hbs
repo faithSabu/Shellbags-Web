@@ -1,0 +1,67 @@
+{{#if wishlist}}
+<div class="wishlist-area ptb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                
+                <h4>My Wishlist</h4>
+                <div class="cart-page-area">
+                    <form method="post" action="#">
+                        <div class="table-responsive">
+                            <table class="shop_table-2 cart table">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail ">Image</th>
+                                        <th class="product-name ">Product Name</th>
+                                        <th class="product-price ">Unit Price</th>
+                                        <th class="product-subtotal ">Stock</th>
+                                        <th class="product-quantity">Add Item</th>
+                                        <th class="product-remove">Remove</th>
+                                    </tr>
+                                </thead>
+                                {{else}}
+
+                                <div class="bred-hading text-center" style="margin-top: 10em;">
+                                                            <h1 style="color: black;">You wishlist is empty</h1>
+                                                        </div>
+                                                        <!--breadcumb area end -->
+
+                                                        <div class="bred-hading text-center" style="margin-top: 7em;">
+                                                            <h3 style="color: black;">Please add items to your wishlist</h3>
+                                                        </div>
+                                                        <div style="margin-bottom: 400px;"></div>
+                                                        {{/if}}
+                                {{#each wishlist}}
+                                <tbody>
+                                    <tr class="cart_item">
+                                        {{#each this.product}}
+                                        <td class="item-img">
+                                            <a href="#"><img src="/public-admin/product-images/{{this.images.[0]}}" alt=""> </a>
+                                        </td>
+                                        <td class="item-title"> <a href="#">{{this.productName}}</a></td>
+                                        <td class="item-price"> Rs. {{this.price}} </td>
+                                        {{#if this.stock}}
+                                        <td class="item-qty">In Stock</td>
+                                        <td class="total-price"><a onclick="addToCart('{{this._id}}')" class="btn-def btn2">Add To Cart</a></td>
+                                        {{else}}
+                                        <td class="item-qty">Out of Stock</td>
+                                        <td class="total-price"><a class="btn-def btn2">Add To Cart</a></td>
+                                        {{/if}}
+                                        <td class="remove-item"><a onclick="removeFromWishlist('{{this._id}}')"><i class="fa fa-trash-o"></i></a></td>
+                                        {{/each}}
+                                    </tr>
+                                </tbody>
+                                {{/each}}
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,176 @@
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper cart">
+
+        <!-- Start of header area -->
+
+
+
+
+        <!--cart-checkout-area start -->
+        {{#if cartItems}}
+        <div class="cart-checkout-area  pt-30" >
+            <div class="container">
+                <div class="row">
+                    <div class="product-area">
+                        <div class="title-tab-product-category">
+                            <div class="col-md-12 text-center pb-60">
+                                <ul class="nav heading-style-3" role="tablist">
+                                    <li role="presentation" class="active shadow-box"><a href="/user/viewCart"
+                                            aria-controls="cart"><span>01</span> Shopping cart</a></li>
+                                    <li role="presentation" class="shadow-box"><a href="/user/address"
+                                            aria-controls="checkout"><span>02</span>Address</a></li>
+                                    <li role="presentation" class="shadow-box"><a href="/user/checkout"
+                                            aria-controls="complete-order"><span>03</span> Checkout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-sm-12">
+                            <div class="content-tab-product-category pb-70">
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="cart">
+                                        <!-- cart are start-->
+                                        <div class="cart-page-area">
+                                            <form method="post" action="#">
+                                                <div class="table-responsive mb-20">
+                                                    <table id="cartTable" class="shop_table-2 cart table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="product-thumbnail ">Image</th>
+                                                                <th class="product-name ">Product Name</th>
+                                                                <th class="product-price ">Unit Price</th>
+                                                                <th class="product-quantity">Quantity</th>
+                                                                {{!-- <th class="product-subtotal ">Total</th> --}}
+                                                                <th class="product-remove">Remove</th>
+                                                            </tr>
+                                                        </thead>
+                                                        {{else}}
+                                                        <!--breadcumb area start -->
+                                                        <div class="bred-hading text-center" style="margin-top: 10em;">
+                                                            <h1 style="color: black;">You cart is empty</h1>
+                                                        </div>
+                                                        <!--breadcumb area end -->
+
+                                                        <div class="bred-hading text-center" style="margin-top: 7em;">
+                                                            <h3 style="color: black;">Please add items to your cart</h3>
+                                                        </div>
+
+
+                                                        {{/if}}
+                                                        <tbody>
+                                                            {{#each cartItems}}
+                                                            <tr class="cart_item">
+                                                                {{#each this.product}}
+                                                                <td class="item-img">
+                                                                    <a href="#"><img
+                                                                            src="/public-admin/product-images/{{this.images.[0]}}"
+                                                                            alt=""> </a>
+                                                                </td>
+                                                                <td class="item-title"> <a href="#">{{this.productName}}
+                                                                    </a></td>
+                                                                {{!-- <td class="item-price"> Rs. {{this.price}}</td> --}}
+                                                                
+                                                                {{#if this.categoryOfferStatus}}
+                                                                           <td>Rs. {{this.categoryOfferPrice}} </td>
+                                                                {{else}}
+                                                                <td class="item-title"> <a href="#">Rs. {{this.price}}
+                                                                {{/if}}
+                                                                {{/each}}
+                                                                <td class="item-qty">
+                                                                    <div class="cart-quantity">
+                                                                        <div class="product-qty">
+                                                                            <div class="cart-quantity">
+                                                                                <div class="cart-plus-minus">
+                                                                                    <div class="dec qtybutton"
+                                                                                        onclick="changeQuantity('{{this._id}}','{{this.item}}','{{../user._id}}',-1)">-</div>
+
+                                                                                    <input id="{{this.item}}"
+                                                                                        value="{{this.quantity}}"
+                                                                                        name="qtybutton"
+                                                                                        class="cart-plus-minus-box"
+                                                                                        type="text">
+                                                                                    <div class="inc qtybutton"
+                                                                                        onclick="changeQuantity('{{this._id}}','{{this.item}}','{{../user._id}}',1)">+</div>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                </div>
+                                                </td>
+
+                                                {{#each this.product}}
+
+                                                <td class="remove-item"><a onclick="removeFromCart('{{this._id}}')">
+                                                        <i class="fa fa-trash-o"></i></a></td>
+                                                {{/each}}
+                                                </tr>
+                                                {{/each}}
+                                                </tbody>
+
+                                                </table>
+                                        </div>
+                                        {{#if cartItems}}
+
+                                        <div class="cart-bottom-area">
+                                            <div class="row">
+
+                                                <div class="col-md-4 col-sm-5 col-xs-12 pull-right">
+                                                    <div class="cart-total-area">
+                                                        <div class="catagory-title cat-tit-5 mb-20 text-right">
+                                                            <h3>Cart Totals</h3>
+                                                        </div>
+                                                        <div class="sub-shipping">
+                                                            {{!-- <p>Subtotal <span>$150.00</span></p> --}}
+                                                            {{!-- <p>Shipping <span>$3.00</span></p> --}}
+                                                        </div>
+
+                                                        <div class="process-cart-total">
+                                                            <p>Total <span id="totalAmount">{{totalAmount.total}}</span>
+                                                                <span>Rs . </span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="process-checkout-btn text-right">
+                                                            <a class="btn-def btn2" style="margin-top: 40px;"
+                                                                href="/user/address">Process To Checkout</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{else}}
+                                        <div style="margin-bottom: 400px;"></div>
+                                        {{/if}}
+                                        </form>
+                                    </div>
+                                    <!-- cart are end-->
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--cart-checkout-area end-->
+
+
+
+    </div>
+    <!-- Body main wrapper end -->
+
+
+</body>

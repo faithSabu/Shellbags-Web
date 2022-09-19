@@ -1,0 +1,155 @@
+<div class="container cart-checkout-area">
+    <h4 class="pt-20" style="color: rgb(22, 182, 22);">Congratulations..Your Order placed successfully!!</h4>
+    <div role="tabpanel" class="tab-pane  fade in pt-20" id="complete-order">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="checkout-payment-area">
+                    <div class="checkout-total mt20">
+                        <h3>Order Summary</h3>
+                        <form action="#" method="post">
+                            <div class="table-responsive">
+                                <table class="checkout-area table">
+                                    <thead>
+                                        <tr class="cart_item check-heading">
+                                            <td class="ctg-type"> Product</td>
+                                            <td class="cgt-des"> Amount</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each orderDetails}}
+                                        <tr class="cart_item check-item prd-name">
+                                            {{#each this.product}}
+                                            <td class="ctg-type"> {{this.productName}} ×
+                                                <span>{{../this.orderedProducts.quantity}}</span>
+                                            </td>
+                                            {{/each}}
+                                            {{#if this.orderedProducts.orderPrice}}
+                                            <td class="cgt-des">Rs. {{this.orderedProducts.orderPrice}}</td>
+                                            {{else}}
+                                            {{#each this.product}}
+                                            <td class="cgt-des">Rs. {{this.price}}</td>
+                                            {{/each}}
+                                            {{/if}}
+                                        </tr>
+                                        {{/each}}
+
+                                        <tr class="cart_item">
+                                            <td class="ctg-type crt-total"> Total</td>
+                                            <td class="cgt-des prc-total"> Rs. {{orderDetails.[0].totalAmount}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <a href="/user/order-history" class="btn-def btn2" style="margin: 35px;">Go to order History</a>
+        <a onclick="downloadInvoice()" href="#" class="btn-def btn2 pull-right" style="margin: 35px;">Download Invoice</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
+
+
+<script>
+    function downloadInvoice() {
+        $.ajax({
+            type: 'get',
+            url: '/user/invoice',
+            success: function (data) {
+                //Create your invoice! Easy!
+        easyinvoice.createInvoice(data, function (result) {
+            //The response will contain a base64 encoded PDF file
+            easyinvoice.download('myInvoice.pdf', result.pdf);
+        });
+
+
+            }
+        });
+    }
+</script>
+
+<script>
+    for(let i=0;i<'{{length}}';i++){
+       console.log('{{orderDetails.[0]}}')
+    }
+    function downloadInvoic() {
+        var data = {
+            "images": {
+                "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+            },
+            // Your own data
+            "sender": {
+                "company": "{{orderDetails.[0].totalAmount}}",
+                "address": "{{orderDetails.[0].deliveryDetails.firstName}}",
+                "zip": "1234 AB",
+                "city": "Sampletown",
+                "country": "Samplecountry"
+            },
+            // Your recipient
+            "client": {
+                "company": "Client Corp",
+                "address": "Clientstreet 456",
+                "zip": "4567 CD",
+                "city": "Clientcity",
+                "country": "Clientcountry"
+            },
+            "information": {
+                // Invoice number
+                "number": "2021.0001",
+                // Invoice data
+                "date": "12-12-2021",
+                // Invoice due date
+                "due-date": "31-12-2021"
+            },
+            // The products you would like to see on your invoice
+            // Total values are being calculated automatically
+            "products": [
+                {
+                    "quantity": 2,
+                    "description": "Product 1",
+                    "tax-rate": 0,
+                    "price": 33.87
+                },
+                {
+                    "quantity": 4.1,
+                    "description": "Product 2",
+                    "tax-rate": 0,
+                    "price": 12.34
+                },
+                {
+                    "quantity": 4.5678,
+                    "description": "Product 3",
+                    "tax-rate": 0,
+                    "price": 6324.453456
+                }
+            ],
+            // The message you would like to display on the bottom of your invoice
+            "bottom-notice": "Kindly pay your invoice within 15 days.",
+            // Settings to customize your invoice
+            "settings": {
+                "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+                // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')
+                // "tax-notation": "gst", // Defaults to 'vat'
+                // "margin-top": 25, // Defaults to '25'
+                // "margin-right": 25, // Defaults to '25'
+                // "margin-left": 25, // Defaults to '25'
+                // "margin-bottom": 25, // Defaults to '25'
+                // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+                // "height": "1000px", // allowed units: mm, cm, in, px
+                // "width": "500px", // allowed units: mm, cm, in, px
+                // "orientation": "landscape", // portrait or landscape, defaults to portrait
+            },
+        };
+
+        //Create your invoice! Easy!
+        easyinvoice.createInvoice(data, function (result) {
+            //The response will contain a base64 encoded PDF file
+            easyinvoice.download('myInvoice.pdf', result.pdf);
+        });
+    }
+</script>

@@ -1,0 +1,47 @@
+<div class="account-area ptb-80 mtb-100">
+            <div class="container ">
+                {{!-- ptb-80 plr-20 --}}
+                <div class="row">
+                    <div class="col-xs-12">
+                        
+
+                        <form action="/user/verifyOtp" method="post" class="login-side col-sm-6 col-sm-offset-3">
+                            <div class="login-reg">
+
+                                {{#if userOTPErr}}
+                                <p style="color: red;">{{userOTPErr}}</p>
+                                {{/if}}
+
+                                {{!-- <h3>Login</h3>
+                                  <div class="input-box">
+                                    <label class="control-label">Phone number</label>
+                                    <input type="text" class="info" placeholder="Phone number" value="" name="mobile"
+                                        id="phone" onchange="validatePhone()">
+                                    <label id="valPhone"></label>
+                                </div>                              --}}
+                                <div class="input-box">
+                                    <label class="control-label" hidden>Phone number</label>
+                                    <input type="text" class="info" placeholder="Phone number" value="{{mobileNumber}}" name="mobile"
+                                        id="phone" onchange="validatePhone()" hidden>
+                                    <label id="valPhone"></label>
+                                </div>
+                                <div class="input-box ">
+                                    <label class="control-label m-5">OTP</label>
+                                    <input type="text" placeholder="OTP" value="" name="otp" class="info">
+                                </div>
+                            </div>
+                            <div class="frm-action ">
+                                <div class="input-box tci-box">
+                                   
+                                    <button type="submit" class="btn btn-primary float-right ">Verify OTP</button>
+                                </div>
+                                <span>
+                                    {{!-- <input class="remr" type="checkbox"> Remember me --}}
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>

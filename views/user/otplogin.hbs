@@ -1,0 +1,32 @@
+<div class="account-area ptb-80 mtb-100">
+            <div class="container ">
+                {{!-- ptb-80 plr-20 --}}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form action="/user/getOtp" method="post" class="login-side col-sm-6 col-sm-offset-3">
+                            <div class="login-reg">
+                                <h3>Login with OTP</h3>
+                                {{#if invalidMobile}}
+                                <p style="color: red;">{{invalidMobile}}</p>
+                                {{/if}}
+                                <div class="input-box">
+                                    <label class="control-label">Phone number</label>
+                                    <input type="text" class="info" placeholder="Phone number" value="" name="mobile"
+                                        id="phone" onchange="validatePhone()">
+                                    <label id="valPhone"></label>
+                                </div>
+                            </div>
+                            <div class="frm-action">
+                                <div class="input-box tci-box">
+                                    {{!-- <a href="#" class="btn-def btn2">Login</a> --}}
+                                    <button type="submit" class="btn btn-primary">Get OTP</button>
+                                </div>                                
+                            </div>
+                        </form>
+
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>

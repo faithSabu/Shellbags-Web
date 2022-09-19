@@ -1,0 +1,105 @@
+<script src="/public/public-admin/myAdminChart.js"></script>
+<!-- partial:partials/_navbar.html -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    {{!-- <div class="row" id="proBanner">
+      <div class="col-12 mt-1">
+        <i class="mdi mdi-close" id="bannerClose"></i>
+      </div>
+    </div> --}}
+    <div class="d-xl-flex justify-content-between align-items-start">
+      <h2 class="text-dark font-weight-bold mt-5 ml-5"> Overview dashboard </h2>
+
+    </div>
+
+
+    <div class="row mt-4">
+
+      <div class="col-lg-7 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title" style="margin-bottom: 30px;">SHELLBAGS Revenue</h4>
+            <canvas id="barChart" style="height:300px;"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body" style="width: 450px;">
+            <h4 class="card-title">Payment Methods</h4>
+            <canvas id="doughnutChart" style="height:250px; width: 10px;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <script>
+
+      let barChart = document.getElementById('barChart').getContext('2d');
+      let chart = new Chart(barChart, {
+        type: 'bar',
+        data: {
+          labels: ['Last week', '1 Month','3 months', ' 6 months', '1 Year'],
+          datasets: [{
+            label: 'Revenue generated',
+            data: [
+              {{ week.[0].sum }},
+          {{ month.[0].sum }},
+          {{threeMonth.[0].sum}},
+          {{sixMonth.[0].sum}},
+             {{ year.[0].sum }}
+            ],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+      ]
+          }]
+        },
+      options: { }
+      })
+    </script>
+
+    <script>
+
+      let doughnutChart = document.getElementById('doughnutChart').getContext('2d');
+      let chart1 = new Chart(doughnutChart, {
+        type: 'doughnut',
+        data: {
+          labels: ['COD', 'Razorpay', 'Paypal'],
+          datasets: [{
+            data: [
+              {{ cod.[0].count }},
+          {{ razorpay.[0].count }},
+             {{ paypal.[0].count }}
+            ],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(255, 206, 86, 0.5)',
+        'rgba(75, 192, 192, 0.5)',
+        'rgba(153, 102, 255, 0.5)',
+        'rgba(255, 159, 64, 0.5)'
+      ]
+          }]
+        },
+      options: { }
+      })
+    </script>
+
+
+
+
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:partials/_footer.html -->
+
+  <!-- partial -->
+</div>
+<script src="/public/public-admin/assets/vendors/chart.js/Chart.min.js"></script>

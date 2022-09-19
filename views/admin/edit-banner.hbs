@@ -1,0 +1,48 @@
+{{!-- myOwn script --}}
+<script defer src="https://cdn.crop.guide/loader/l.js?c=FZZCZP"></script>
+{{!-- myOwn script --}}
+
+<div class="container">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body" style="margin-top: 5em;">
+                <h1 class="card-title">Edit Banner</h1>
+                <form class="forms-sample" action="/admin/edit-banner" method="post" enctype="multipart/form-data">
+                <input type="text" name="bannerId" id="" value="{{bannerData._id}}" hidden>
+                    <div class="form-group">
+                        <label for="exampleInputName1">Banner Heading</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Heading"
+                            name="bannerHeading" value="{{bannerData.bannerHeading}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName1">Brief Description</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Description"
+                            name="bannerDescription" value="{{bannerData.bannerDescription}}">
+                    </div>
+
+                    {{!-- <p>Existing image</p>
+                    <p id="smallImage" onclick="showImage()"> <img style="width: 300px;" src="/public-admin/banner-images/{{bannerData.image}}" alt=""></p>
+                    <p id="bigImage" > <img style="width: 700px;" src="/public-admin/banner-images/{{bannerData.image}}" alt=""></p> --}}
+                    
+                    
+                    <div class="form-group">
+                        <label for="formFile">File upload</label>
+                        <input class="form-control" type="file" 
+                            id="formFile" name="bannerImage">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                {{!-- <a href="/admin/view-products" class="btn btn-light">Cancel</a> --}}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- <script>
+    $(document).ready(function (event) {
+        $('#smallImage').on('click', function (e) {
+        $("#bigImage").toggle('slow');
+        })
+    })
+</script> --}}
+

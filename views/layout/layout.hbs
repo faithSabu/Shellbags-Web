@@ -1,0 +1,187 @@
+{{#if nothing}}
+{{{body}}}
+{{else}}
+
+
+
+{{!-- admin starts here --}}
+
+{{#if admin}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SHELLBAGS</title>
+  {{!-- my file start --}}
+  {{!--
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> --}}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  {{!-- my file end--}}
+
+
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="/public-admin/assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="/public-admin/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/public-admin/assets/vendors/css/vendor.bundle.base.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="/public-admin/assets/vendors/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/public-admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <!-- endinject -->
+  <!-- Layout styles -->
+  <link rel="stylesheet" href="/public-admin/assets/css/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="/public-admin/assets/images/favicon.png" />
+
+  {{!-- myown script --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+    integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{!-- myown script --}}
+</head>
+{{#if login}}
+{{{body}}}
+{{else}}
+
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper">
+
+    {{>admin-leftNav}}
+    {{>admin-header}}
+    {{{body}}}
+
+    <!-- main-panel ends -->
+  </div>
+</div>
+
+{{#if dataTableAdmin}}
+{{!-- dataTable will crash if the below scripts are there --}}
+{{else}}
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/public-admin/assets/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/public-admin/assets/vendors/chart.js/Chart.min.js"></script>
+<script src="/public-admin/assets/vendors/jquery-circle-progress/js/circle-progress.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/public-admin/assets/js/off-canvas.js"></script>
+<script src="/public-admin/assets/js/hoverable-collapse.js"></script>
+<script src="/public-admin/assets/js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="/public-admin/assets/js/dashboard.js"></script>
+<!-- End custom js for this page -->
+
+{{!-- My script --}}
+{{!--
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+{{/if}}  {{!-- dataTableAdmin if closing --}}
+
+</html>
+
+
+
+{{/if}}  {{!-- login if closing --}}
+
+{{else}}
+
+{{!-- user starts here --}}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>SHELLBAGS</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="images/icons/favicon.ico">
+  <!-- Place favicon.ico in the root directory -->
+  {{!-- my file add --}}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  {{!-- my file end --}}
+
+  <!-- All css files are included here. -->
+  <!-- Bootstrap fremwork main css -->
+  <link rel="stylesheet" href="/public-user/css/bootstrap.min.css">
+  <!-- This core.css file contents all plugings css file. -->
+  <link rel="stylesheet" href="/public-user/css/core.css">
+  <!-- Theme shortcodes/elements style -->
+  <link rel="stylesheet" href="/public-user/css/shortcode/shortcodes.css">
+  <!-- Theme main style -->
+  <link rel="stylesheet" href="/public-user/style.css">
+  <!-- Responsive css -->
+  <link rel="stylesheet" href="/public-user/css/responsive.css">
+  <!-- User style -->
+  <link rel="stylesheet" href="/public-user/css/custom.css">
+  <link rel="stylesheet" href="/public-user/css/color/skin-default.css">
+
+
+  <!-- Modernizr JS -->
+  <script src="/public-user/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  {{!-- myScript --}}
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  {{!-- myScript --}}
+</head>
+
+
+{{>user-header}}
+{{{body}}}
+{{>user-footer}}
+
+{{#if dataTableUser}}
+{{!-- dataTable will crash if the below scripts are there --}}
+{{else}}
+
+<!-- Placed js at the end of the document so the pages load faster -->
+
+{{!-- swal script --}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{{!-- swal script --}}
+
+
+
+<!-- jquery latest version -->
+<script src="/public-user/js/vendor/jquery-1.12.0.min.js"></script>
+<!-- Bootstrap framework js -->
+<script src="/public-user/js/bootstrap.min.js"></script>
+<!-- Slider js -->
+<script src="/public-user/js/slider/jquery.nivo.slider.pack.js"></script>
+<script src="/public-user/js/slider/nivo-active.js"></script>
+<!-- counterUp-->
+<script src="/public-user/js/jquery.countdown.min.js"></script>
+<!-- All js plugins included in this file. -->
+<script src="/public-user/js/plugins.js"></script>
+<!-- Main js file that contents all jQuery plugins activation. -->
+<script src="/public-user/js/main.js"></script>
+
+<script type="text/javascript" src="/ajax.js"></script>
+
+{{/if}}  {{!-- dataTableUser if closing --}}
+
+</html>
+
+{{!-- admin if closing --}}
+{{/if}}
+{{!--admin if closing --}}
+
+
+
+{{/if}}  {{!-- nothing --}}

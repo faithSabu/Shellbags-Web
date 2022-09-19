@@ -1,0 +1,181 @@
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper cart">
+        <div class="cart-checkout-area  pt-30">
+            <div class="container">
+                <div class="row">
+                    <div class="product-area">
+
+
+
+
+                        <div role="tabpanel" class="tab-pane  fade in " id="checkout">
+                            <!-- Checkout are start-->
+                            <div class="checkout-area">
+                                <div class="">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-xs-12">
+                                                    <div class="billing-details">
+                                                        <div class="contact-text right-side">
+                                                            <h2>Billing Details - Add a new address </h2>
+                                                            <form id="addAddressForm">
+                                                                <div class="row">
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>First Name <em>*</em></label>
+                                                                            <input type="text" name="firstName"
+                                                                                class="info" placeholder="First Name">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Last Name<em>*</em></label>
+                                                                            <input type="text" name="lastName"
+                                                                                class="info" placeholder="Last Name">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Company Name</label>
+                                                                            <input type="text" name="company"
+                                                                                class="info" placeholder="Company Name">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Email Address<em>*</em></label>
+                                                                            <input type="email" name="email"
+                                                                                class="info" placeholder="Your Email">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Phone Number<em>*</em></label>
+                                                                            <input type="text" name="phone" class="info"
+                                                                                placeholder="Phone Number">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Country <em>*</em></label>
+                                                                            <input type="text" name="country"
+                                                                                class="info mb-10"
+                                                                                placeholder="Country">
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Address <em>*</em></label>
+                                                                            <input type="text" name="address"
+                                                                                class="info mb-10"
+                                                                                placeholder="Street Address">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <div class="input-box mb-20">
+                                                                            <label>Town/City <em>*</em></label>
+                                                                            <input type="text" name="town" class="info"
+                                                                                placeholder="Town/City">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box">
+                                                                            <label>State/Divison <em>*</em></label>
+                                                                            <input type="text" name="state" class="info"
+                                                                                placeholder="State">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                                                        <div class="input-box">
+                                                                            <label>Post Code/Zip Code<em>*</em></label>
+                                                                            <input type="text" name="pinCode"
+                                                                                class="info" placeholder="Zip Code">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="process-checkout-btn text-left btn-def btn2"
+                                                                    style="margin-bottom: 50px; margin-top: 20px; color: black;">Add
+                                                                    new Address</button>
+                                                                
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xs-12">
+                                                    <div class="billing-details">
+                                                           <div class="contact-text right-side">
+                                                            <h2>Your Addresses </h2>
+                                                          
+                                                            {{#if address}}
+                                                            
+                                                                    <form action="/user/toCheckout" method="post">
+                                                                        {{#each address}}
+                                                                        <div class="shipp">
+                                                                            <input type="radio"
+                                                                                id="{{this.addressList.indexId}}"
+                                                                                name="address"
+                                                                                value="{{this.addressList.indexId}}">
+                                                                            <label
+                                                                                for="{{this.addressList.indexId}}">{{this.addressList.firstName}},
+                                                                                {{this.addressList.phone}},
+                                                                                {{this.addressList.town}},{{this.addressList.address}}
+                                                                                {{this.addressList.pinCode}}</label>
+                                                                        </div>
+                                                                        {{/each}}
+                                                                        <div class="input-box mt-20">
+                                                                            <button
+                                                                                style="background-color: black; padding: .3em 3em; font-size: 1.4em; margin: 2em 0 5em 11em;">Continue
+                                                                                to checkout
+                                                                            </button>
+
+                                                                        </div>
+                                                                    </form>
+                                                                
+                                                            {{/if}}
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Checkout are end-->
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

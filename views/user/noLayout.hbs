@@ -1,0 +1,29 @@
+<html>
+<head>
+    <meta charset="UTF8">
+    <title>Title</title>
+    <script src="/public-admin/product-images/1662351569037--10a.webp" type="application/javascript"></script>
+</head>
+<body>
+<div id="img-container" style="width: 400px;">
+    <img src="https://github.com/malaman/js-image-zoom/blob/master/example/1.jpg?raw=true" >
+</div>
+
+
+<script>
+    var options = {
+        width: 400,
+        height:250,
+        offset: { vertical: 0, horizontal: 10 },
+        scale: 1.5,
+        zoomStyle:'width:900px; height:700px;',
+        zoomLensStyle: 'opacity: 0.2;background-color: red;',
+        
+    }
+    new ImageZoom(document.getElementById('img-container'), options)
+
+
+
+</script>
+</body>
+</html>

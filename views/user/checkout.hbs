@@ -1,0 +1,101 @@
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Body main wrapper start -->
+    <div class="wrapper cart" style="margin-bottom: 100px;">
+        <div class="cart-checkout-area  pt-30">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="update-coupne-area">
+
+                            <div class="coupn-area">
+                                <div class="catagory-title cat-tit-5 mb-20">
+                                    <h3>Coupon</h3>
+                                    <p id="couponStatus" style="color: rgb(205, 32, 32);"></p>
+                                    <p>Enter your coupon code if you have one.</p>
+                                </div>
+                                <form id="applyCoupon" action="/user/test" method="post">
+                                    <div class="input-box input-box-2 mb-20">
+                                        <input type="text" placeholder="Coupon-Code" class="info" name="couponCode">
+                                        <input type="text" id="totalAmount" name="totalAmount" value="{{totalAmount.total}}" hidden>
+                                    </div>
+                                    <button type="submit"
+                                        style="background-color: black; padding: .3em 2em; font-size: 1.4em; margin-bottom: 1em;">Apply
+                                        Coupon</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                
+
+
+                    <div class="col-md-6 col-sm-12 product-area">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="checkout-payment-area">
+                                    <div class="checkout-total mt20">
+                                        <h3>Your order</h3>
+                                        <p id="appliedCouponInfoDisplay" style="color: rgb(42, 149, 58);"></p>
+                                        <div class="table-responsive">
+                                            <table class="checkout-area table">
+                                                <tbody>
+                                                    <tr class="cart_item">
+                                                        <td class="ctg-type crt-total"> Total</td>
+                                                        <td id="newAmountDisplay" class="cgt-des prc-total">Rs. {{totalAmount.total}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="payment-section mt-20 clearfix">
+                                        <div class="pay-toggle">
+                                            <form id="placeOrderForm" action="">
+                                                <div class="pay-type-total">
+                                                    <input type="text" name="total" id="newAmount" value="{{totalAmount.total}}" hidden>
+                                                    <input type="text" name="couponCode" id="appliedCouponInfo" hidden>
+
+                                                    <div class="pay-type">
+                                                        <input type="radio" id="pay-toggle02" name="payment"
+                                                            value="razorpay">
+                                                        <label for="pay-toggle02">Razor Pay</label>
+                                                    </div>
+                                                    <div class="pay-type">
+                                                        <input type="radio" id="pay-toggle03" name="payment"
+                                                            value="paypal">
+                                                        <label for="pay-toggle03">Paypal</label>
+                                                    </div>
+                                                    <div class="pay-type">
+                                                        <input type="radio" id="pay-toggle04" name="payment"
+                                                            value="cod">
+                                                        <label for="pay-toggle04">Cash on Delivery</label>
+                                                    </div>
+                                                    <input type="text" value="{{user._id}}" name="userId" hidden>
+                                                </div>
+                                                <div class="input-box mt-20">
+                                                    <button
+                                                        style="background-color: black; padding: .3em 10em; font-size: 1.4em; margin-bottom: 1em;">Place
+                                                        Order</button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>

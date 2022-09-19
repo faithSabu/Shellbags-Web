@@ -1,0 +1,34 @@
+{{!-- myOwn script --}}
+<script defer src="https://cdn.crop.guide/loader/l.js?c=FZZCZP"></script>
+{{!-- myOwn script --}}
+
+<div class="container">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body" style="margin-top: 5em;">
+                <h1 class="card-title">Add Banner</h1>
+                <form class="forms-sample" action="/admin/add-banner" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Banner Heading</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Heading"
+                            name="bannerHeading">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputName1">Brief Description</label>
+                        <input type="text" class="form-control" id="exampleInputName1" placeholder="Description"
+                            name="bannerDescription">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="formFile">File upload</label>
+                        <input class="form-control" type="file" 
+                            id="formFile" name="bannerImage">
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                {{!-- <a href="/admin/view-products" class="btn btn-light">Cancel</a> --}}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
