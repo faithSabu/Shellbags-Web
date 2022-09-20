@@ -67,7 +67,7 @@
                                                                 </a></td>
                                                             <td style="border: none; border-bottom: 1px solid black;">
                                                                 {{this.orderedProducts.length}} <br>
-                                                                <a href="/user/order-historyDetails/{{this._id}}" class="btn" style="color: #028b2e;">Details</a></td>
+                                                                <a href="/order-historyDetails/{{this._id}}" class="btn" style="color: #028b2e;">Details</a></td>
                                                             <td style="border: none; border-bottom: 1px solid black;">
                                                                 {{this.totalAmount}}</td>
                                                             <td style="border: none; border-bottom: 1px solid black;">
@@ -131,7 +131,7 @@
     function cancelOrder(orderId){
         $.ajax({
         type: 'POST',
-        url: '/user/cancelOrder',
+        url: '/cancelOrder',
         data: {
             orderId
         },

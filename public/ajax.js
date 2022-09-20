@@ -2,7 +2,7 @@
 function changeQuantity(cartId, prodId, userId, count) {
     let quantity = document.getElementById(prodId).value
     $.ajax({
-        url: '/user/changeProductQuantity',
+        url: '/changeProductQuantity',
         data: {
             cart: cartId,
             product: prodId,
@@ -38,12 +38,12 @@ $(document).ready(function (event) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/user/checkout',
+            url: '/checkout',
             data: $('#placeOrderForm').serialize(),
             success: function (data) {
                 if (data.cod) {
                     swal('Your order placed successfully')
-                    window.location.href = "/user/order-summary";
+                    window.location.href = "/order-summary";
                 } else if (data.razorpay) {
                     placeOrder(data)
                 } else if (data.paypal) {
@@ -103,14 +103,14 @@ function placeOrder(order) {
 function verifyPayment(order, response) {
     $.ajax({
         type: 'POST',
-        url: '/user/verifyPayment',
+        url: '/verifyPayment',
         data: {
             order,
             response
         },
         success: function (data) {
             if (data.status) {
-                window.location.href = "/user/order-summary";
+                window.location.href = "/order-summary";
             } else {
                 swal('Payment failed')
             }
@@ -124,7 +124,7 @@ $(document).ready(function (event) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/user/applyCoupon',
+            url: '/applyCoupon',
             data: $('#applyCoupon').serialize(),
             success: function (response) {
                 if (response.newAmount) {
@@ -149,7 +149,7 @@ $(document).ready(function (event) {
 
 function addToWishlist(prodId) {
     $.ajax({
-        url: '/user/addToWishlist',
+        url: '/addToWishlist',
         data: {
             prodId
         },
@@ -167,7 +167,7 @@ function addToWishlist(prodId) {
 
 function addToCart(prodId) {
     $.ajax({
-        url: '/user/addToCart',
+        url: '/addToCart',
         data: {
             prodId
         },
@@ -193,7 +193,7 @@ function removeFromWishlist(prodId) {
         .then((willRemove) => {
             if (willRemove) {
                 $.ajax({
-                    url: '/user/removeFromWishlist',
+                    url: '/removeFromWishlist',
                     data: {
                         prodId
                     },
@@ -216,7 +216,7 @@ function removeFromCart(prodId) {
         .then((willRemove) => {
             if (willRemove) {
                 $.ajax({
-                    url: '/user/removeFromCart',
+                    url: '/removeFromCart',
                     data: {
                         prodId
                     },
@@ -235,7 +235,7 @@ $(document).ready(function (event) {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/user/address',
+            url: '/address',
             data: $('#addAddressForm').serialize(),
             success: function (response) {
                 swal({

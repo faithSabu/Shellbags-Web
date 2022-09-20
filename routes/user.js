@@ -37,7 +37,7 @@ const verifyUserLogin = async (req, res, next) => {
     req.session.category = category;
     next();
   }
-  else res.redirect('/user/login');
+  else res.redirect('/login');
 }
 
 const getCategory = async (req, res, next) => {
@@ -64,13 +64,13 @@ router.get('/', getCategory, function (req, res, next) {
 router.post('/register', (req, res) => {
   req.body.block = false;
   userHelpers.doSignup(req.body).then((response) => {
-    res.redirect('/user/login')
+    res.redirect('/login')
   })
 })
 
 router.get('/login', function (req, res, next) {
   if (req.session.user) {
-    res.redirect('/user')
+    res.redirect('/')
   } else {
     res.render('user/login', { 'loginErr': req.session.userLoginErr, 'loginBlocked': req.session.userBlocked, login: true });
     req.session.userLoginErr = false;
@@ -82,14 +82,14 @@ router.post('/login', (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     if (response.block) {
       req.session.userBlocked = "Sorry, Your Access has been denied."
-      res.redirect('/user/login');
+      res.redirect('/login');
     } else {
       if (response.status) {
         req.session.user = response.user;
-        res.redirect('/user');
+        res.redirect('/');
       } else {
         req.session.userLoginErr = 'Invalid username or password';
-        res.redirect('/user/login');
+        res.redirect('/login');
       }
     }
 
@@ -106,7 +106,7 @@ router.post('/getOtp', (req, res) => {
   userHelpers.verifyMobile(mobileNumber).then((response) => {
     if (response.block) {
       req.session.userBlocked = "Sorry, Your Access has been denied."
-      res.redirect('/user/login');
+      res.redirect('/login');
     }
     else if (response.status) {
       client.verify.v2.services(process.env.SERVICE_ID)
@@ -118,7 +118,7 @@ router.post('/getOtp', (req, res) => {
         .catch((err) => console.log(err));
     } else if (response.noUser) {
       req.session.invalidMobile = "Please enter a mobile number registered with SHELLBAGS"
-      res.redirect('/user/otplogin')
+      res.redirect('/otplogin')
     }
 
   })
@@ -136,7 +136,7 @@ router.post('/verifyOtp', (req, res) => {
         req.session.user = true;
         userHelpers.verifyMobile(mobileNumber, req.session.user).then((response) => {
           req.session.user = response.user;
-          res.redirect('/user')
+          res.redirect('/')
         })
       } else {
         req.session.userOTPErr = 'OTP is invalid';
@@ -218,7 +218,7 @@ router.post('/address', verifyUserLogin, async (req, res) => {
   let totalAmount = await userHelpers.getTotalAmount(req.session.user._id)
   userHelpers.addAddress(req.body, req.session.user._id).then((response) => {
     // res.render('user/checkout', { user: req.session.user, cartCount:req.session.cartCount, totalAmount })
-    // res.redirect('/user/address')
+    // res.redirect('/address')
     res.json({ data: true })
   })
 })
@@ -230,7 +230,7 @@ router.get('/checkout', verifyUserLogin, async (req, res) => {
 
 router.post('/toCheckout', verifyUserLogin, (req, res) => {
   req.session.address = req.body.address;
-  res.redirect('/user/checkout');
+  res.redirect('/checkout');
 })
 
 router.post('/checkout', verifyUserLogin, async (req, res) => {
@@ -300,7 +300,7 @@ router.get("/paypalSuccess", verifyUserLogin, (req, res) => {
         throw error;
       } else {
         console.log(JSON.stringify(payment));
-        res.redirect("/user/order-summary");
+        res.redirect("/order-summary");
       }
     }
     );
@@ -397,7 +397,7 @@ router.get('/invoice',async(req,res)=>{
 
 router.get('/logout', (req, res) => {
   req.session.user = null;
-  res.redirect('/user');
+  res.redirect('/');
 })
 
 

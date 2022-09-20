@@ -47,7 +47,7 @@
 
             </div>
         </div>
-        <a href="/user/order-history" class="btn-def btn2" style="margin: 35px;">Go to order History</a>
+        <a href="/order-history" class="btn-def btn2" style="margin: 35px;">Go to order History</a>
         <a onclick="downloadInvoice()" href="#" class="btn-def btn2 pull-right" style="margin: 35px;">Download Invoice</a>
     </div>
 </div>
@@ -59,7 +59,7 @@
     function downloadInvoice() {
         $.ajax({
             type: 'get',
-            url: '/user/invoice',
+            url: '/invoice',
             success: function (data) {
                 //Create your invoice! Easy!
         easyinvoice.createInvoice(data, function (result) {

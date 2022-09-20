@@ -10,8 +10,8 @@
                                 {{#if user}}
                                 <li style="color: white; font-size: 1em;">Welcome {{user.fullName}}</li>
                                 {{else}}
-                                <li><a href="/user/login">Login</a></li>
-                                <li><a href="/user/login">Register</a></li>
+                                <li><a href="/login">Login</a></li>
+                                <li><a href="/login">Register</a></li>
                                 {{/if}}
                             </ul>
                         </div>
@@ -43,15 +43,15 @@
                                     </div> --}}
                                 </li>
                                 {{#if user}}
-                                <li><a href="/user/wishList" data-tooltip="Wishlist" class="w-list"><i
+                                <li><a href="/wishList" data-tooltip="Wishlist" class="w-list"><i
                                             class="fa fa-heart-o"></i></a></li>
                                 <li>
                                     <div class="header-cart">
                                         <div class="cart-icon" style="margin-right: 20px;"> <a
-                                                href="/user/viewCart">Cart<i class="zmdi zmdi-shopping-cart"></i></a>
+                                                href="/viewCart">Cart<i class="zmdi zmdi-shopping-cart"></i></a>
                                             <span id="cartCountDisplay">{{cartCount}}</span>
                                         </div>
-                                <li><a href="/user/logout">Logout</a></li>
+                                <li><a href="/logout">Logout</a></li>
                                 <div class="cart-content-wraper">
                                     <div class="cart-single-wraper">
                                         <div class="cart-img">
@@ -96,7 +96,7 @@
         <div class="full-width-mega-dropdown">
             <div class="row">
                 <div class="col-md-2 col-sm-2">
-                    <div class="logo pt-30 pb-20"> <a href="/user"><span
+                    <div class="logo pt-30 pb-20"> <a href="/"><span
                                 style="color: red; font-size: 2em;">SHELL</span>
                             <span style="color: rgb(68, 0, 255); font-size: 2em;">BAGS</span></a></div>
                 </div>
@@ -104,11 +104,11 @@
                     <nav id="primary-menu">
                         <ul class="main-menu">
                             {{#each category}}
-                            <li class="mega-parent"><a href="/user/category/{{this._id}}" >{{this.category}}</a>
+                            <li class="mega-parent"><a href="/category/{{this._id}}" >{{this.category}}</a>
                                 <div class="mega-menu-area mma-9">
                                     {{#each this.subCategory}}
                                     <ul class="single-mega-item coloum-4">
-                                        <li><a href="/user/category/{{../_id}}">{{this}}</a></li>
+                                        <li><a href="/category/{{../_id}}">{{this}}</a></li>
                                     </ul>
                                     {{/each}}
                                 </div>

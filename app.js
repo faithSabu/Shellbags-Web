@@ -42,7 +42,7 @@ db.connect((err) => {
   if(err) console.log('Database connection error'+err);
   else console.log('Database connected succesfully');
 })
-app.use('/user', userRouter);
+app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
