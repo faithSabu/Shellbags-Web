@@ -41,8 +41,9 @@ $(document).ready(function (event) {
             url: '/checkout',
             data: $('#placeOrderForm').serialize(),
             success: function (data) {
-                if (data.cod) {
-                    swal('Your order placed successfully')
+                if(data.insufficientBalance){
+                    document.getElementById('walletStatus').innerHTML = "Insufficient Balance";
+                }else if (data.cod) {
                     window.location.href = "/order-summary";
                 } else if (data.razorpay) {
                     placeOrder(data)
@@ -52,6 +53,8 @@ $(document).ready(function (event) {
                             location.href = data.links[i].href;
                         }
                     }
+                }else if(data.wallet){
+                    window.location.href = "/order-summary";
                 } else {
                     swal('Error in payment')
                 }
@@ -253,6 +256,34 @@ $(document).ready(function (event) {
         });
     });
 });
+
+function cancelOrder(orderId,orderAmount,paymentMethod) {
+        swal({
+            title: "Are you sure to Cancel?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willRemove) => {
+                if (willRemove) {
+                    alert(orderId)
+        alert(orderAmount)
+        alert(paymentMethod)
+                    $.ajax({
+                        url: '/cancelOrder',
+                        data: {
+                            orderId:orderId,
+                            orderAmount:orderAmount,
+                            paymentMethod:paymentMethod,
+                        },
+                        method: 'post',
+                        success: (response) => {
+                            location.reload();
+                        }
+                    })
+                }
+            });
+    }
 
 
 

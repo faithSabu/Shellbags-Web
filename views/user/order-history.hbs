@@ -93,7 +93,7 @@
                                                             </td>
                                                             {{else}}
                                                             <td style="border: none; border-bottom: 1px solid black;"><a id="{{this._id}}"
-                                                                    onclick="cancelOrder('{{this._id}}')" class="btn-def small">Cancel order</a></td>
+                                                                    onclick="cancelOrder('{{this._id}}','{{this.totalAmount}}','{{this.paymentMethod}}')" class="btn-def small">Cancel order</a></td>
                                                             {{/if_eq}}
 
 
@@ -127,22 +127,3 @@
 </body>
 
 
-<script>
-    function cancelOrder(orderId){
-        $.ajax({
-        type: 'POST',
-        url: '/cancelOrder',
-        data: {
-            orderId
-        },
-        success: function (data) {
-            if (data) {
-                location.reload()
-            } else {
-                swal('Payment failed')
-            }
-
-        }
-    });
-    }
-</script>

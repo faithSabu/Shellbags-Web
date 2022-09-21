@@ -178,9 +178,29 @@ module.exports = {
             resolve(orderedProducts)
         })
     },
-    cancelOrder:(orderId)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(orderId)},
+    cancelOrder:(data,userId)=>{
+                return new Promise(async(resolve,reject)=>{
+                    console.log('1111111111111111');
+                    console.log(data);
+                    if(data.paymentMethod == 'cod'){
+                        let wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(userId)})
+                        if(wallet){
+                            await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:objectId(userId)},
+                            {
+                                $set:{
+                                    walletAmount : wallet.walletAmount+parseInt(data.orderAmount)
+                                }
+                            })
+                        }else{
+                            let newWallet = {
+                                userId : objectId(userId),
+                                walletAmount : parseInt(data.orderAmount)
+                            }
+                            await db.get().collection(collection.WALLET_COLLECTION).insertOne(newWallet)
+                        }
+                    }
+        
+                    db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(data.orderId)},
             {
                 $set:{status:'Cancelled'}
             }).then((response)=>{

@@ -147,7 +147,24 @@ module.exports = {
         })
     },
     changeOrderStatus: (data)=>{
-        return new Promise((resolve,reject)=>{
+        return new Promise(async(resolve,reject)=>{
+                        if(data.paymentMethod == 'cod' && data.newStatus == 'Cancelled'){
+                            let wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(data.userId)})
+                            if(wallet){
+                                await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:objectId(data.userId)},       
+                                {
+                                    $set:{
+                                        walletAmount : wallet.walletAmount+parseInt(data.orderAmount)
+                                    }
+                                })
+                            }else{
+                                let newWallet = {
+                                    userId : objectId(data.userId),
+                                    walletAmount : parseInt(data.orderAmount)
+                                }
+                                await db.get().collection(collection.WALLET_COLLECTION).insertOne(newWallet)
+                            }
+                        }
             db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(data.orderId)},
             {
                 $set:{status:data.newStatus}

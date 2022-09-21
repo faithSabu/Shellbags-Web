@@ -223,9 +223,10 @@ router.post('/address', verifyUserLogin, async (req, res) => {
   })
 })
 router.get('/checkout', verifyUserLogin, async (req, res) => {
-  let totalAmount = await userHelpers.getTotalAmount(req.session.user._id)
+  let totalAmount = await userHelpers.getTotalAmount(req.session.user._id);
+  let walletAmount = await userHelpers.getWalletAmount(req.session.user._id);
   // totalAmount = userHelpers.getTotalAmount(req.session.user._id)
-  res.render('user/checkout', { user: req.session.user, cartCount: req.session.cartCount, totalAmount })
+  res.render('user/checkout', { user: req.session.user, cartCount: req.session.cartCount, totalAmount ,walletAmount})
 })
 
 router.post('/toCheckout', verifyUserLogin, (req, res) => {
@@ -234,11 +235,20 @@ router.post('/toCheckout', verifyUserLogin, (req, res) => {
 })
 
 router.post('/checkout', verifyUserLogin, async (req, res) => {
+  if(req.body.payment == 'wallet'){
+    let walletStatus = await userHelpers.checkWalletAmount(req.session.user._id,req.body.total)
+    if(walletStatus.insufficientBalance){
+      return res.json(walletStatus)
+    }
+  }
+  console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
   let orderedProducts = await userHelpers.getCartItems_placeOrder(req.body.userId)
   let totalAmount = {};
   totalAmount.total = parseInt(req.body.total);
   let deliveryDetails = await userHelpers.getSingleAddress(req.body.userId, req.session.address)
-  couponHelpers.addCouponToUser(req.body.userId, req.body.couponCode)
+  if(req.body.couponCode){
+    couponHelpers.addCouponToUser(req.body.userId, req.body.couponCode)
+  }
   couponHelpers.addUsedCouponCount(req.body.couponCode)
   let orderId = await userHelpers.placeOrder(req.body.userId, orderedProducts, totalAmount, req.body.payment, deliveryDetails)
   let cartCount = await userHelpers.getCartCount(req.session.user._id)
@@ -264,6 +274,10 @@ router.post('/checkout', verifyUserLogin, async (req, res) => {
         res.json(response);
       });
     })
+  }else if(req.body.payment == 'wallet'){
+    response.cartCount = cartCount;
+    response.wallet = true;
+    res.json(response)
   } else {
     res.json({ paymentError: true })
   }
@@ -271,9 +285,6 @@ router.post('/checkout', verifyUserLogin, async (req, res) => {
 
 router.get('/order-summary',verifyUserLogin,getCategory, async(req,res)=>{
   let orderDetails = await productHelpers.getOrdereHistoryDetails(req.session.orderId)
-  // let orderDetails = await productHelpers.getOrdereHistoryDetails('6321a59511ae6dee2e56181d')
-  console.log(orderDetails);
-  console.log(orderDetails[0].product);
   res.render('user/order-summary',{orderDetails, user: req.session.user, cartCount: req.session.cartCount ,length:orderDetails.length});
 })
 
@@ -364,14 +375,9 @@ router.post('/filterProducts',verifyUserLogin,getCategory,async(req,res)=>{
 router.get('/order-history',verifyUserLogin,async(req,res)=>{
   let deletePendingResponse = await userHelpers.deletePendingOrder();
   let orderHistory = await productHelpers.getOrdereHistory(req.session.user._id)
-  console.log(orderHistory);
-  // console.log(orderHistory[0].orderedProducts);
-  console.log(orderHistory.length);
-
   for(let i=0;i<orderHistory.length;i++){
     orderHistory[i].date = orderHistory[i].date.toISOString().substring(0, 10);
   }
-  console.log(orderHistory);
   res.render('user/order-history',{user: req.session.user,cartCount: req.session.cartCount,orderHistory})
 })
 
@@ -381,7 +387,7 @@ router.get('/order-historyDetails/:id',verifyUserLogin,getCategory, async(req,re
 })
 
 router.post('/cancelOrder',verifyUserLogin,(req,res)=>{
-  productHelpers.cancelOrder(req.body.orderId).then((response)=>{
+  productHelpers.cancelOrder(req.body,req.session.user._id).then((response)=>{
     res.json(response)
   })
 })

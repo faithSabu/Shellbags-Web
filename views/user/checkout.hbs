@@ -75,6 +75,23 @@
                                                             value="cod">
                                                         <label for="pay-toggle04">Cash on Delivery</label>
                                                     </div>
+                                                    {{#if walletAmount}}
+                                                    <div class="pay-type">
+                                                        <input type="radio" id="pay-toggle05" name="payment"
+                                                            value="wallet">
+                                                        <label for="pay-toggle05">Shellbags Wallet <span
+                                                                style="font-weight: bold;"></span> </label>
+                                                    </div>
+                                                    {{else}}
+                                                    <div class="pay-type">
+                                                        <input type="radio" id="pay-toggle05" name="payment"
+                                                            value="wallet">
+                                                        <label for="pay-toggle05">Wallet <span
+                                                            style="font-weight: bold;">(Your Wallet is empty)</span>
+                                                        </label>
+                                                    </div>
+                                                    {{/if}}
+                                                    <span style="color: red;" id="walletStatus"></span>
                                                     <input type="text" value="{{user._id}}" name="userId" hidden>
                                                 </div>
                                                 <div class="input-box mt-20">

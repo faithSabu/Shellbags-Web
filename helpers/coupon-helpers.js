@@ -47,7 +47,7 @@ module.exports = {
                 for (var item of AppliedCoupons) {
                     if(item == coupon.couponCode){
                         response.couponUsed = true;
-                        resolve(response)
+                        return resolve(response)
                     }
                 }
             }
@@ -93,8 +93,6 @@ module.exports = {
                     {
                         $push: { usedCoupon: couponCode }
                     })
-            }else if(couponCode == ''){
-                return resolve()
             }else {
                 db.get().collection(collection.USER_COLLECTION).updateOne(
                     { _id: ObjectId(userId) },

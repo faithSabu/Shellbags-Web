@@ -7,6 +7,8 @@ var objectId = require('mongodb').ObjectId;
 const CC = require('currency-converter-lt');
 const Razorpay = require('razorpay');
 const paypal = require('paypal-rest-sdk');
+const {resolve} = require('path');
+// const {Promise} = require('mongodb');
 const orderid = require('order-id')('key');
 require('dotenv').config();
 
@@ -396,7 +398,7 @@ module.exports = {
     placeOrder: (userId, orderedProducts, totalAmount, paymentMethod, deliveryDetails) => {
         return new Promise(async (resolve, reject) => {
             const orderId = orderid.generate();
-            let status = paymentMethod === 'cod' ? 'Order Placed' : 'pending'
+            let status = paymentMethod === 'cod' || 'wallet' ? 'Order Placed' : 'pending'
             let orderObj = {
                 userId: objectId(userId),
                 orderedProducts: orderedProducts,
@@ -408,7 +410,7 @@ module.exports = {
                 date: new Date()
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async (response) => {
-                if(paymentMethod === 'cod'){
+                if(paymentMethod === 'cod' || 'wallet' ) {
                     let deleteResponse = await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(userId) })
                 }
                 resolve(response.insertedId)
@@ -520,6 +522,46 @@ module.exports = {
             });
         });
     },
+    getWalletAmount:(userId)=>{
+                return new Promise((resolve,reject)=>{
+                    db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(userId)}).then((data)=>{
+                        if(data){
+                            resolve(data.walletAmount)
+                        }else{
+                            resolve(false)
+                        }
+                    })
+                })
+            },
+            checkWalletAmount:(userId,total)=>{
+                return new Promise(async(resolve,reject)=>{
+                    let walletStatus = {}
+                    let walletAmount = await db.get().collection(collection.WALLET_COLLECTION).aggregate([
+                        {
+                            $match:{userId:objectId(userId)}
+                        }
+                    ]).toArray();
+                    console.log(walletAmount[0]);
+                    if(walletAmount[0]){
+                        if(walletAmount[0].walletAmount< total){
+                            walletStatus.insufficientBalance = true;
+                            return resolve(walletStatus)
+                        }else{
+                            db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:objectId(userId)},
+                            {
+                                $set:{walletAmount : walletAmount[0].walletAmount - parseInt(total)}
+                            }).then((response)=>{
+                                return resolve(response);
+                            })
+                        }
+                        walletStatus.walletUpdated = true;
+                        resolve(walletStatus)
+                    }else{
+                        walletStatus.insufficientBalance = true;
+                        return resolve(walletStatus)
+                    }
+                })
+            }
 
 
 }

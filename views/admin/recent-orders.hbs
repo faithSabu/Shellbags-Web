@@ -29,7 +29,7 @@
                             <td>Rs. {{this.totalAmount}}</td>
                             <td>{{this.paymentMethod}}</td>
                             {{!-- <td><label class="btn btn-outline-dark">{{this.status}}</label></td> --}}
-                            <td> <select onchange="changeOrderStatus('{{this._id}}')" class="form-control" name="category" id="{{this._id}}">
+                            <td> <select onchange="changeOrderStatus('{{this._id}}','{{this.paymentMethod}}','{{this.totalAmount}}','{{this.user.[0]._id}}')" class="form-control" name="category" id="{{this._id}}">
                                     <option value="">{{this.status}}</option>
                                     {{#if_eq this.status "Order Placed"}}
                                     <option value="Order Confirmed">Order Confirmed</option>
@@ -60,14 +60,17 @@
 </div>
 
 <script>
-function changeOrderStatus(orderId){
+function changeOrderStatus(orderId,paymentMethod,orderAmount,userId){
        let newStatus = document.getElementById(orderId).value;
     $.ajax({
         type: 'POST',
         url: '/admin/changeOrderStatus',
         data: {
             orderId,
-            newStatus
+            newStatus,
+            paymentMethod,
+            orderAmount,
+            userId,
         },
         success: function (data) {
            location.reload();
