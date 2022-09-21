@@ -54,7 +54,7 @@ module.exports = {
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find(
                     {
                         $and: [
-                            {category:data.category},
+                            { category: data.category },
                             { brand: { $in: data.brandFilter } }
                         ]
                     }
@@ -67,7 +67,7 @@ module.exports = {
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find(
                     {
                         $and: [
-                            {category:data.category},
+                            { category: data.category },
                             { subCategory: { $in: data.subcategoryFilter } }
                         ]
                     }
@@ -83,7 +83,7 @@ module.exports = {
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find(
                     {
                         $and: [
-                            {category:data.category},
+                            { category: data.category },
                             { subCategory: { $in: data.subcategoryFilter } },
                             { brand: { $in: data.brandFilter } }
                         ]
@@ -139,8 +139,8 @@ module.exports = {
             })
         })
     },
-    getOrdereHistory:(userId)=>{
-        return new Promise(async(resolve,reject)=>{
+    getOrdereHistory: (userId) => {
+        return new Promise(async (resolve, reject) => {
             let orderHistory = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                 {
                     $match: { userId: objectId(userId) }
@@ -156,7 +156,7 @@ module.exports = {
                     $match: { _id: objectId(orderId) }
                 },
                 {
-                   $unwind:'$orderedProducts'
+                    $unwind: '$orderedProducts'
                 },
                 {
                     $lookup: {
@@ -169,107 +169,132 @@ module.exports = {
                 // {
                 //     $group:{
                 //         _id: '$product',
-       
+
                 //     }
                 // }
-              
-               
+
+
             ]).toArray()
             resolve(orderedProducts)
         })
     },
-    cancelOrder:(data,userId)=>{
-                return new Promise(async(resolve,reject)=>{
-                    console.log('1111111111111111');
-                    console.log(data);
-                    if(data.paymentMethod == 'cod'){
-                        let wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({userId:objectId(userId)})
-                        if(wallet){
-                            await db.get().collection(collection.WALLET_COLLECTION).updateOne({userId:objectId(userId)},
-                            {
-                                $set:{
-                                    walletAmount : wallet.walletAmount+parseInt(data.orderAmount)
-                                }
-                            })
-                        }else{
-                            let newWallet = {
-                                userId : objectId(userId),
-                                walletAmount : parseInt(data.orderAmount)
+    cancelOrder: (data, userId) => {
+        return new Promise(async (resolve, reject) => {
+            console.log('1111111111111111');
+            console.log(data);
+            if (data.paymentMethod == 'cod') {
+                let wallet = await db.get().collection(collection.WALLET_COLLECTION).findOne({ userId: objectId(userId) })
+                if (wallet) {
+                    await db.get().collection(collection.WALLET_COLLECTION).updateOne({ userId: objectId(userId) },
+                        {
+                            $set: {
+                                walletAmount: wallet.walletAmount + parseInt(data.orderAmount)
                             }
-                            await db.get().collection(collection.WALLET_COLLECTION).insertOne(newWallet)
-                        }
+                        })
+                } else {
+                    let newWallet = {
+                        userId: objectId(userId),
+                        walletAmount: parseInt(data.orderAmount)
                     }
-        
-                    db.get().collection(collection.ORDER_COLLECTION).updateOne({_id:objectId(data.orderId)},
-            {
-                $set:{status:'Cancelled'}
-            }).then((response)=>{
-                resolve(response)
-            })
+                    await db.get().collection(collection.WALLET_COLLECTION).insertOne(newWallet)
+                }
+            }
+
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectId(data.orderId) },
+                {
+                    $set: { status: 'Cancelled' }
+                }).then((response) => {
+                    resolve(response)
+                })
         })
     },
-    invoice:(orderDetails)=>{
-        return new Promise((resolve,reject)=>{
+    invoice: (orderDetails) => {
+        return new Promise((resolve, reject) => {
             let products = [];
-            for(let i=0;i<orderDetails.length;i++){
+            for (let i = 0; i < orderDetails.length; i++) {
                 orderDetails[i].product[0].quantity = orderDetails[i].orderedProducts.quantity
-                if(orderDetails[i].orderedProducts.orderPrice.toString()){
+                if (orderDetails[i].orderedProducts.orderPrice.toString()) {
                     orderDetails[i].product[0].orderPrice = (orderDetails[i].orderedProducts.orderPrice.toString())
-                }else{
+                } else {
                     orderDetails[i].product[0].orderPrice = orderDetails[i].product[0].price;
                 }
                 products.push(orderDetails[i].product)
-        }
-        var mergedProducts = [].concat.apply([], products);
-        let productArray = mergedProducts.map(createInvoice);
-        function createInvoice(item,orderDetails1){
-            return {
-            "quantity": item.quantity,
-            "description": item.productName,
-            "tax-rate": 0,
-            "price": item.orderPrice}
-          }
-        
-        var data = {
-            // Your own data
-            "sender": {
-            "company": "SHELLBAGS",
-            "zip": "Kochi",
-            "city": "Kerala",
-            "country": "India"
-                
-            },
-            // Your recipient
-            "client": {
-            "company": orderDetails[0].deliveryDetails.firstName,
-            "address": "Mob"+': '+orderDetails[0].deliveryDetails.phone,
-            "zip": orderDetails[0].deliveryDetails.pinCode,
-            "city": orderDetails[0].deliveryDetails.town,
-            "country": orderDetails[0].deliveryDetails.state
-            },
-            "information": {
-                "number": "OD-1791",
-                "date": orderDetails[0].date.toISOString().substring(0, 10),
-                "due-date": "Not applicable"
-            },
-            "products":productArray,
-            // Settings to customize your invoice
-            "settings": {
-                "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
-                // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')
-                // "tax-notation": "gst", // Defaults to 'vat'
-                // "margin-top": 25, // Defaults to '25'
-                // "margin-right": 25, // Defaults to '25'
-                // "margin-left": 25, // Defaults to '25'
-                // "margin-bottom": 25, // Defaults to '25'
-                // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
-                // "height": "1000px", // allowed units: mm, cm, in, px
-                // "width": "500px", // allowed units: mm, cm, in, px
-                // "orientation": "landscape", // portrait or landscape, defaults to portrait
-            },
-        };
-        resolve(data)
-    })
+            }
+            var mergedProducts = [].concat.apply([], products);
+            let productArray = mergedProducts.map(createInvoice);
+            function createInvoice(item, orderDetails1) {
+                return {
+                    "quantity": item.quantity,
+                    "description": item.productName,
+                    "tax-rate": 0,
+                    "price": item.orderPrice
+                }
+            }
+
+            var data = {
+                // Your own data
+                "sender": {
+                    "company": "SHELLBAGS",
+                    "zip": "Kochi",
+                    "city": "Kerala",
+                    "country": "India"
+
+                },
+                // Your recipient
+                "client": {
+                    "company": orderDetails[0].deliveryDetails.firstName,
+                    "address": "Mob" + ': ' + orderDetails[0].deliveryDetails.phone,
+                    "zip": orderDetails[0].deliveryDetails.pinCode,
+                    "city": orderDetails[0].deliveryDetails.town,
+                    "country": orderDetails[0].deliveryDetails.state
+                },
+                "information": {
+                    "number": "OD-1791",
+                    "date": orderDetails[0].date.toISOString().substring(0, 10),
+                    "due-date": "Not applicable"
+                },
+                "products": productArray,
+                // Settings to customize your invoice
+                "settings": {
+                    "currency": "INR", // See documentation 'Locales and Currency' for more info. Leave empty for no currency.
+                    // "locale": "nl-NL", // Defaults to en-US, used for number formatting (See documentation 'Locales and Currency')
+                    // "tax-notation": "gst", // Defaults to 'vat'
+                    // "margin-top": 25, // Defaults to '25'
+                    // "margin-right": 25, // Defaults to '25'
+                    // "margin-left": 25, // Defaults to '25'
+                    // "margin-bottom": 25, // Defaults to '25'
+                    // "format": "A4", // Defaults to A4, options: A3, A4, A5, Legal, Letter, Tabloid
+                    // "height": "1000px", // allowed units: mm, cm, in, px
+                    // "width": "500px", // allowed units: mm, cm, in, px
+                    // "orientation": "landscape", // portrait or landscape, defaults to portrait
+                },
+            };
+            resolve(data)
+        })
+    },
+    incSoldQnty: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            await db.get().collection(collection.CART_COLLECTION).aggregate([
+                { $match: { user: objectId(userId) } },
+                { $unwind: "$products" },
+                { $project: { _id: 0, 'products.item': 1 } }
+            ]).forEach(function (doc) {
+                var item = doc.products.item;
+                console.log(doc.products.item);
+                db.get().collection(collection.PRODUCT_COLLECTION).updateOne(
+                    { _id: item },
+                    { $inc: { sold: 1 } }
+                )
+            })
+        })
+    },
+    getOfferProducts : ()=>{
+        return new Promise(async(resolve,reject)=>{
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({categoryOfferStatus:true}).limit(6).toArray();
+            console.log(products);
+                resolve(products)
+            
+        })
     }
 
 }

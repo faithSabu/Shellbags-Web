@@ -561,9 +561,7 @@ module.exports = {
                         return resolve(walletStatus)
                     }
                 })
-            }
-
-
+            },
 }
 
 

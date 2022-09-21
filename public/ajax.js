@@ -58,7 +58,9 @@ $(document).ready(function (event) {
                 } else {
                     swal('Error in payment')
                 }
-                document.getElementById('cartCountDisplay').innerHTML = data.cartCount;
+                if(data.cartCount){
+                    document.getElementById('cartCountDisplay').innerHTML = data.cartCount;
+                }
 
             }
         });

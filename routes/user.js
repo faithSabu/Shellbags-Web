@@ -55,8 +55,9 @@ router.get('/', getCategory, function (req, res, next) {
     })
   }
   productHelpers.getAllProducts().then(async (products) => {
+    let offerProducts = await productHelpers.getOfferProducts()
     let banner = await bannerHelpers.getBanner();
-    res.render('user/index', { products,banner, user: req.session.user, cartCount: req.session.cartCount, category: req.session.category });
+    res.render('user/index', { products,offerProducts,banner, user: req.session.user, cartCount: req.session.cartCount, category: req.session.category });
   })
 });
 
@@ -241,8 +242,8 @@ router.post('/checkout', verifyUserLogin, async (req, res) => {
       return res.json(walletStatus)
     }
   }
-  console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
   let orderedProducts = await userHelpers.getCartItems_placeOrder(req.body.userId)
+  productHelpers.incSoldQnty(req.session.user._id);
   let totalAmount = {};
   totalAmount.total = parseInt(req.body.total);
   let deliveryDetails = await userHelpers.getSingleAddress(req.body.userId, req.session.address)
@@ -408,8 +409,9 @@ router.get('/logout', (req, res) => {
 
 
 router.get('/test', async (req, res) => {
-  userHelpers.getCartItems_placeOrder(req.session.user._id)
-  res.render('user/shop')
+  let products = await productHelpers.getAllProducts();
+  userHelpers.testdd(req.session.user._id)
+  res.render('user/test',{products})
 })
 
 router.post('/test', (req, res) => {
@@ -420,44 +422,3 @@ router.post('/test', (req, res) => {
 })
 
 module.exports = router;
-
-
-
-
-
-
-// {
-//   id: 'PAYID-ML62R6A31D12200681524643',
-//   intent: 'sale',
-//   state: 'created',
-//   payer: { payment_method: 'paypal' },
-//   transactions: [
-//     {
-//       amount: [Object],
-//       description: 'Best bags ever',
-//       item_list: [Object],
-//       related_resources: []
-//     }
-//   ],
-//   create_time: '2022-08-18T02:50:32Z',
-//   links: [
-//     {
-//       href: 'https://api.sandbox.paypal.com/v1/payments/payment/PAYID-ML62R6A31D12200681524643',
-//       rel: 'self',
-//       method: 'GET'
-//     },
-//     {
-//       href: 'https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-8E394982134803639',
-//       rel: 'approval_url',
-//       method: 'REDIRECT'
-//     },
-//     {
-//       href: 'https://api.sandbox.paypal.com/v1/payments/payment/PAYID-ML62R6A31D12200681524643/execute',
-//       rel: 'execute',
-//       method: 'POST'
-//     }
-//   ],
-//   httpStatusCode: 201,
-//   paypal: true
-// }
-
