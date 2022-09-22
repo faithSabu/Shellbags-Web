@@ -17,18 +17,6 @@ require('dotenv').config();
 
 const client = require('twilio')(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 
-router.use((req, res, next) => {
-  req.session.user = {
-    _id: '62e8c3d0074b97047dca41fc',
-    fullName: 'shambu',
-    email: 'sha@gmail.com',
-    mobile: '9746369882',
-    password: '$2b$10$AICWOd9dX4TLnLsATYxCteLm5Rv2oAeG4UdrJxIhWo1g3gUh27mcC',
-    block: false
-  }
-  next();
-})
-
 const verifyUserLogin = async (req, res, next) => {
   if (req.session.user) {
     let cartCount = await userHelpers.getCartCount(req.session.user._id)
