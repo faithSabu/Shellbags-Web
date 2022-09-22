@@ -364,6 +364,12 @@ module.exports = {
             })
         })
     },
+    getUserData :(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let data = await db.get().collection(collection.USER_COLLECTION).find({_id:objectId(userId)}).toArray();
+                resolve(data[0])
+        })
+    },
     getAddress: (userId) => {
         return new Promise(async (resolve, reject) => {
             let address = await db.get().collection(collection.USERADDRESS_COLLECTION).aggregate([
@@ -541,7 +547,6 @@ module.exports = {
                             $match:{userId:objectId(userId)}
                         }
                     ]).toArray();
-                    console.log(walletAmount[0]);
                     if(walletAmount[0]){
                         if(walletAmount[0].walletAmount< total){
                             walletStatus.insufficientBalance = true;
@@ -562,6 +567,41 @@ module.exports = {
                     }
                 })
             },
+            validateRegiserForm:(data)=>{
+                return new Promise((resolve,reject)=>{
+                    let invalid = {};
+                    var regx = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+                    if(regx.test(data.fullName)){
+                        invalid.fullName = false;
+                    }else{
+                        invalid.fullName = true;
+                    }
+                    var regx = /^([a-zA-Z0-9\.-_ ]+)@([a-zA-Z0-9]+).([a-zA-Z]{2,20})(.[a-zA-Z]{2,5})$/;
+                    if(regx.test(data.email)){
+                        invalid.email = false;
+                    }else{
+                        invalid.email = true;
+                    }
+                    var regx = /^[0-9]{10}$/;
+                    if(regx.test(data.mobile)){
+                        invalid.mobile = false;
+                    }else{
+                        invalid.mobile = true;
+                    }
+                    var regx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+                    if(regx.test(data.password)){
+                        invalid.password = false;
+                    }else{
+                        invalid.password = true;
+                    }
+                    if(data.password == data.rePassword){
+                        invalid.rePassword = false;
+                    }else{
+                        invalid.rePassword = true;
+                    }
+                    resolve(invalid)
+                })
+            }
 }
 
 

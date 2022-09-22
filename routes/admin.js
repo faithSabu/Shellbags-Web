@@ -62,21 +62,28 @@ const verifyAdminLogin = (req, res, next) => {
 /* GET users listing. */
 router.get('/', async function (req, res, next) {
   if (req.session.admin) {
+    let quartrData = await adminHelpers.getQuarterlyRevenue(2021)
     let cod = await adminHelpers.getPaymentMethodNums('cod')
     let razorpay = await adminHelpers.getPaymentMethodNums('razorpay')
     let paypal = await adminHelpers.getPaymentMethodNums('paypal')
-    let year = await adminHelpers.getRevenue('year', 1);
-    let sixMonth = await adminHelpers.getRevenue('month', 6)
-    let threeMonth = await adminHelpers.getRevenue('month', 3)
-    let month = await adminHelpers.getRevenue('month', 1);
-    let week = await adminHelpers.getRevenue('day', 7);
-    res.render('admin/index', { cod, razorpay, paypal, year, sixMonth, threeMonth, month, week, admin: true });
+    // let year = await adminHelpers.getRevenue('year', 1);
+    // let sixMonth = await adminHelpers.getRevenue('month', 6)
+    // let threeMonth = await adminHelpers.getRevenue('month', 3)
+    // let month = await adminHelpers.getRevenue('month', 1);
+    // let week = await adminHelpers.getRevenue('day', 7);
+    res.render('admin/index', {quartrData, cod, razorpay, paypal, admin: true });
   } else {
     res.render('admin/login', { admin: true, login: true, adminLoginError: req.session.adminLoginError, noAdmin: req.session.noAdmin })
     req.session.adminLoginError = false;
     req.session.noAdmin = false;
   }
 });
+
+router.post('/getQuarterRevenue',verifyAdminLogin,async(req,res)=>{
+  console.log(req.body);
+  let quartrData = await adminHelpers.getQuarterlyRevenue(req.body.year)
+  res.json(quartrData)
+})
 
 router.post('/login', (req, res) => {
   adminHelpers.getAdmin(req.body).then((response) => {
@@ -296,8 +303,6 @@ router.post('/deleteBanner',verifyAdminLogin,(req,res)=>{
 
 router.get('/recentOrders',verifyAdminLogin,async(req,res)=>{
   let recentOrders = await adminHelpers.getRecentOrders()
-  // console.log(recentOrders);
-  // console.log(recentOrders[0].user);
   res.render('admin/recent-orders',{admin:true, recentOrders,dataTableAdmin:true})
 })
 

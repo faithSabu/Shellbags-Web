@@ -1900,7 +1900,7 @@ span input.remr {
 }
 .input-box input {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    border: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
     width: 100%;
 }
 .checkbox.checkbox-2 input[type="checkbox"] {

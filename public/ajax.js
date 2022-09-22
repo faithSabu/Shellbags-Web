@@ -41,9 +41,9 @@ $(document).ready(function (event) {
             url: '/checkout',
             data: $('#placeOrderForm').serialize(),
             success: function (data) {
-                if(data.insufficientBalance){
+                if (data.insufficientBalance) {
                     document.getElementById('walletStatus').innerHTML = "Insufficient Balance";
-                }else if (data.cod) {
+                } else if (data.cod) {
                     window.location.href = "/order-summary";
                 } else if (data.razorpay) {
                     placeOrder(data)
@@ -53,12 +53,12 @@ $(document).ready(function (event) {
                             location.href = data.links[i].href;
                         }
                     }
-                }else if(data.wallet){
+                } else if (data.wallet) {
                     window.location.href = "/order-summary";
                 } else {
                     swal('Error in payment')
                 }
-                if(data.cartCount){
+                if (data.cartCount) {
                     document.getElementById('cartCountDisplay').innerHTML = data.cartCount;
                 }
 
@@ -259,33 +259,66 @@ $(document).ready(function (event) {
     });
 });
 
-function cancelOrder(orderId,orderAmount,paymentMethod) {
-        swal({
-            title: "Are you sure to Cancel?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willRemove) => {
-                if (willRemove) {
-                    alert(orderId)
-        alert(orderAmount)
-        alert(paymentMethod)
-                    $.ajax({
-                        url: '/cancelOrder',
-                        data: {
-                            orderId:orderId,
-                            orderAmount:orderAmount,
-                            paymentMethod:paymentMethod,
-                        },
-                        method: 'post',
-                        success: (response) => {
-                            location.reload();
-                        }
+function cancelOrder(orderId, orderAmount, paymentMethod) {
+    swal({
+        title: "Are you sure to Cancel?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willRemove) => {
+            if (willRemove) {
+                alert(orderId)
+                alert(orderAmount)
+                alert(paymentMethod)
+                $.ajax({
+                    url: '/cancelOrder',
+                    data: {
+                        orderId: orderId,
+                        orderAmount: orderAmount,
+                        paymentMethod: paymentMethod,
+                    },
+                    method: 'post',
+                    success: (response) => {
+                        location.reload();
+                    }
+                })
+            }
+        });
+}
+
+$(document).ready(function (event) {
+    $('#registerFormId').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/validateRegisterForm',
+            data: $('#registerFormId').serialize(),
+            success: function (res) {
+                if (res.fullName || res.email || res.moblie || res.password) {
+                    swal({
+                        title: "Please Enter Valid Details",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
                     })
+                } else {
+                    swal({
+                        title: "Done!",
+                        text: "You have Registered Successfully!",
+                        icon: "success",
+                        button: "OK!",
+                    })
+                        .then((response) => {
+                            if (response) {
+                                window.location.href = "/register";
+                            }
+                        });
                 }
-            });
-    }
+            }
+        });
+    });
+});
 
 
 

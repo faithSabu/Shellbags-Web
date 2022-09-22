@@ -9,6 +9,7 @@
                             <ul>
                                 {{#if user}}
                                 <li style="color: white; font-size: 1em;">Welcome {{user.fullName}}</li>
+                                {{!-- <li><a href="#">My Account</a></li> --}}
                                 {{else}}
                                 <li><a href="/login">Login</a></li>
                                 <li><a href="/login">Register</a></li>
@@ -16,136 +17,88 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-6 hidden-xs">
-                        <div class="social-search-area text-center">
-                            {{!-- <div class="social-icon socile-icon-style-2">
-                                <ul>
-                                    <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a> </li>
-                                    <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a> </li>
-                                    <li> <a href="#" title="dribble"><i class="fa fa-dribbble"></i></a></li>
-                                    <li> <a href="#" title="behance"><i class="fa fa-behance"></i></a> </li>
-                                    <li> <a href="#" title="rss"><i class="fa fa-rss"></i></a> </li>
-                                </ul>
-                            </div> --}}
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
+
+                    <div class="col-md-9 col-sm-12 col-xs-6">
                         <div class="cart-currency-area login-register-area text-right">
                             <ul>
-                                <li>
-                                    {{!-- <div class="header-currency">
-                                        <select>
-                                            <option value="1">USD</option>
-                                            <option value="2">Pound</option>
-                                            <option value="3">Euro</option>
-                                            <option value="4">Dinar</option>
-                                        </select>
-                                    </div> --}}
-                                </li>
                                 {{#if user}}
+                                <li><a href="/myAccount">My Account</a></li>
                                 <li><a href="/wishList" data-tooltip="Wishlist" class="w-list"><i
                                             class="fa fa-heart-o"></i></a></li>
                                 <li>
                                     <div class="header-cart">
-                                        <div class="cart-icon" style="margin-right: 20px;"> <a
-                                                href="/viewCart">Cart<i class="zmdi zmdi-shopping-cart"></i></a>
+                                        <div class="cart-icon" style="margin-right: 10px;"> <a href="/viewCart">Cart<i
+                                                    class="zmdi zmdi-shopping-cart"></i></a>
+                                            {{#if cartCount}}
                                             <span id="cartCountDisplay">{{cartCount}}</span>
+                                            {{/if}}
                                         </div>
+
+                                    </div>
+                                </li>
                                 <li><a href="/logout">Logout</a></li>
-                                <div class="cart-content-wraper">
-                                    <div class="cart-single-wraper">
-                                        <div class="cart-img">
-                                            <a href="#"><img src="images/product/01.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart-content">
-                                            <div class="cart-name"> <a href="#">Aenean Eu Tristique</a> </div>
-                                            <div class="cart-price"> $70.00 </div>
-                                            <div class="cart-qty"> Qty: <span>1</span> </div>
-                                        </div>
-                                        <div class="remove"> <a href="#"><i class="zmdi zmdi-close"></i></a> </div>
-                                    </div>
-                                    <div class="cart-single-wraper">
-                                        <div class="cart-img">
-                                            <a href="#"><img src="images/product/02.jpg" alt=""></a>
-                                        </div>
-                                        <div class="cart-content">
-                                            <div class="cart-name"> <a href="#">Aenean Eu Tristique</a> </div>
-                                            <div class="cart-price"> $70.00 </div>
-                                            <div class="cart-qty"> Qty: <span>1</span> </div>
-                                        </div>
-                                        <div class="remove"> <a href="#"><i class="zmdi zmdi-close"></i></a> </div>
-                                    </div>
-                                    <div class="cart-subtotal"> Subtotal: <span>$200.00</span> </div>
-                                    <div class="cart-check-btn">
-                                        <div class="view-cart"> <a class="btn-def" href="cart.html">View Cart</a> </div>
-                                        <div class="check-btn"> <a class="btn-def" href="checkout.html">Checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{/if}}
+                            </ul>
                         </div>
-                        </li>
-                        {{/if}}
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-</div>
-<div class="header-middle-area">
-    <div class="container">
-        <div class="full-width-mega-dropdown">
-            <div class="row">
-                <div class="col-md-2 col-sm-2">
-                    <div class="logo pt-30 pb-20"> <a href="/"><span
-                                style="color: red; font-size: 2em;">SHELL</span>
-                            <span style="color: rgb(68, 0, 255); font-size: 2em;">BAGS</span></a></div>
-                </div>
-                <div class="col-md-7 col-sm-10 hidden-xs">
-                    <nav id="primary-menu">
-                        <ul class="main-menu">
-                            {{#each category}}
-                            <li class="mega-parent"><a href="/category/{{this._id}}" >{{this.category}}</a>
-                                <div class="mega-menu-area mma-9">
-                                    {{#each this.subCategory}}
-                                    <ul class="single-mega-item coloum-4">
-                                        <li><a href="/category/{{../_id}}">{{this}}</a></li>
-                                    </ul>
-                                    {{/each}}
-                                </div>
-                            </li>
-                            {{/each}}
-                        </ul>
-                    </nav>
-                </div>
-
-                <!-- mobile-menu-area start -->
-                <div class="mobile-menu-area">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <nav id="dropdown">
-                                    <ul>
-                                        {{#each category}}
-                                        <li><a href="/category/{{this._id}}" >{{this.category}}</a>
-                                            <ul class="single-mega-item">
-                                                {{#each this.subCategory}}
+        <div class="header-middle-area">
+            <div class="container">
+                <div class="full-width-mega-dropdown">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <div class="logo pt-30 pb-20"> <a href="/"><span
+                                        style="color: red; font-size: 2em;">SHELL</span>
+                                    <span style="color: rgb(68, 0, 255); font-size: 2em;">BAGS</span></a></div>
+                        </div>
+                        <div class="col-md-7 col-sm-10 hidden-xs">
+                            <nav id="primary-menu">
+                                <ul class="main-menu">
+                                    {{#each category}}
+                                    <li class="mega-parent"><a href="/category/{{this._id}}">{{this.category}}</a>
+                                        <div class="mega-menu-area mma-9">
+                                            {{#each this.subCategory}}
+                                            <ul class="single-mega-item coloum-4">
                                                 <li><a href="/category/{{../_id}}">{{this}}</a></li>
+                                            </ul>
+                                            {{/each}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <!-- mobile-menu-area start -->
+                        <div class="mobile-menu-area">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <nav id="dropdown">
+                                            <ul>
+                                                {{#each category}}
+                                                <li><a href="/category/{{this._id}}">{{this.category}}</a>
+                                                    <ul class="single-mega-item">
+                                                        {{#each this.subCategory}}
+                                                        <li><a href="/category/{{../_id}}">{{this}}</a></li>
+                                                        {{/each}}
+                                                    </ul>
+                                                </li>
                                                 {{/each}}
                                             </ul>
-                                        </li>
-                                        {{/each}}
-                                    </ul>
-                                </nav>
+                                        </nav>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!--mobile menu area end-->
                     </div>
                 </div>
-                <!--mobile menu area end-->
             </div>
         </div>
-    </div>
-</div>
-</header>
+    </header>
 
 
 

@@ -10,6 +10,7 @@ module.exports = {
             products.price = parseInt(products.price);
             products.stock = parseInt(products.stock);
             products.sold = 0;
+            products.timeStamp = new Date();
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(products).then((data) => {
                 resolve(data.insertedId);
             })
@@ -294,6 +295,18 @@ module.exports = {
             console.log(products);
                 resolve(products)
             
+        })
+    },
+    newArrival:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let newArrival = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({timeStamp:-1}).limit(2).toArray();
+            resolve(newArrival)
+        })
+    },
+    topSelectedProducts : ()=>{
+        return new Promise(async(resolve,reject)=>{
+            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().sort({sold:-1}).limit(8).toArray();
+            resolve(products)
         })
     }
 

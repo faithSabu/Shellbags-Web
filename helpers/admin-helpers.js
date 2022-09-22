@@ -172,6 +172,43 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+    getQuarterlyRevenue :(selectdYear)=>{
+        selectdYear = parseInt(selectdYear)
+        return new Promise(async(resolve,reject)=>{
+            let quarterData = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match:
+                    {
+                        $expr:
+                        {
+                            "$eq": [{ "$year": "$date" },
+                                selectdYear
+                            ]
+                        }
+                    }
+                },
+                {
+                    $group: {
+                       _id: {
+                          truncatedOrderDate: {
+                             $dateTrunc: {
+                                date: "$date", unit: "quarter",
+                             }
+                          }
+                       },
+                       revenue: { $sum: '$totalAmount' }
+                    }
+                 },
+                 {
+                    $sort:{'_id.truncatedOrderDate':1}
+                 },
+                 {
+                    $project: { revenue: 1, _id: 0 }
+                }
+              ]).toArray()
+              resolve(quarterData)
+        })
     }
 }
 

@@ -31,14 +31,14 @@
                                                                         <div class="input-box mb-20">
                                                                             <label>First Name <em>*</em></label>
                                                                             <input type="text" name="firstName"
-                                                                                class="info" placeholder="First Name">
+                                                                                class="info" placeholder="First Name" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                                         <div class="input-box mb-20">
                                                                             <label>Last Name<em>*</em></label>
                                                                             <input type="text" name="lastName"
-                                                                                class="info" placeholder="Last Name">
+                                                                                class="info" placeholder="Last Name" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12 col-sm-12 col-xs-12">
@@ -53,14 +53,14 @@
                                                                         <div class="input-box mb-20">
                                                                             <label>Email Address<em>*</em></label>
                                                                             <input type="email" name="email"
-                                                                                class="info" placeholder="Your Email">
+                                                                                class="info" placeholder="Your Email" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                                                         <div class="input-box mb-20">
                                                                             <label>Phone Number<em>*</em></label>
                                                                             <input type="text" name="phone" class="info"
-                                                                                placeholder="Phone Number">
+                                                                                placeholder="Phone Number" required>
                                                                         </div>
                                                                     </div>
 
@@ -79,7 +79,7 @@
                                                                             <label>Address <em>*</em></label>
                                                                             <input type="text" name="address"
                                                                                 class="info mb-10"
-                                                                                placeholder="Street Address">
+                                                                                placeholder="Street Address" required>
 
                                                                         </div>
                                                                     </div>
@@ -87,7 +87,7 @@
                                                                         <div class="input-box mb-20">
                                                                             <label>Town/City <em>*</em></label>
                                                                             <input type="text" name="town" class="info"
-                                                                                placeholder="Town/City">
+                                                                                placeholder="Town/City" required>
                                                                         </div>
                                                                     </div>
 
@@ -95,7 +95,7 @@
                                                                         <div class="input-box">
                                                                             <label>State/Divison <em>*</em></label>
                                                                             <input type="text" name="state" class="info"
-                                                                                placeholder="State">
+                                                                                placeholder="State" required>
 
                                                                         </div>
                                                                     </div>
@@ -103,7 +103,7 @@
                                                                         <div class="input-box">
                                                                             <label>Post Code/Zip Code<em>*</em></label>
                                                                             <input type="text" name="pinCode"
-                                                                                class="info" placeholder="Zip Code">
+                                                                                class="info" placeholder="Zip Code" required>
                                                                         </div>
                                                                     </div>
 
@@ -134,9 +134,10 @@
                                                                                 value="{{this.addressList.indexId}}">
                                                                             <label
                                                                                 for="{{this.addressList.indexId}}">{{this.addressList.firstName}},
-                                                                                {{this.addressList.phone}},
-                                                                                {{this.addressList.town}},{{this.addressList.address}}
-                                                                                {{this.addressList.pinCode}}</label>
+                                                                                {{this.addressList.town}},{{this.addressList.address}},
+                                                                                {{this.addressList.state}}
+                                                                                {{this.addressList.pinCode}},
+                                                                                Ph : {{this.addressList.phone}},</label>
                                                                         </div>
                                                                         {{/each}}
                                                                         <div class="input-box mt-20">

@@ -64,7 +64,7 @@
                         </form>
                     </div>
                     <div class="col-sm-6 col-xs-12 lr2">
-                        <form action="/register" method="post">
+                        <form id="registerFormId" action="" method="post">
                             <div class="login-reg">
                                 <h3>Register</h3>
                                 <div class="input-box">
@@ -95,7 +95,7 @@
 
                                 <div class="input-box">
                                     <label class="control-label">Re-enter the password</label>
-                                    <input type="password" class="info" placeholder="Password" value="" id="rePassword"
+                                    <input type="password" class="info" placeholder="Password" value="" id="rePassword" name="rePassword"
                                         onchange="validateRePassword()" required>
                                     <label id="valRePassword"></label>
                                 </div>
@@ -118,7 +118,6 @@
             
                 function validatename() {
                 var text = document.getElementById("name").value;
-                console.log(text);
                 var regx = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
                 if (regx.test(text)) {
                     name = 1;
@@ -167,7 +166,6 @@
             }
             function validatePassword() {
                 const text1 = document.getElementById("password").value;
-                console.log(text1);
                 {{!-- var regx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/; --}}
                 var regx = /^[0-9 a-z]+$/
                 if (regx.test(text1)) {
@@ -186,7 +184,6 @@
             function validateRePassword() {
                 const text2 = document.getElementById("rePassword").value;
                 const text1 = document.getElementById("password").value;
-                console.log(text2);
                 if (text1 === text2) {
                     rePassword = 1;
                     document.getElementById("valRePassword").innerHTML = "Valid";
@@ -224,6 +221,7 @@
             return false;
         }
     }
+
         </script>
 
     </div>

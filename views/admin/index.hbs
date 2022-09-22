@@ -18,7 +18,19 @@
       <div class="col-lg-7 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title" style="margin-bottom: 30px;">SHELLBAGS Revenue</h4>
+            <div class="row">
+              <div class="col-md-8">
+
+                <h4 class="card-title" style="margin-bottom: 30px; display: inline-block;">SHELLBAGS Revenue</h4>
+              </div>
+              <div class="form-group col-md-4">
+                <select class="form-control" id="revenueYearId" name="subCategory">
+                  {{!-- <option value="" disabled="disabled">Select year</option> --}}
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                </select>
+              </div>
+            </div>
             <canvas id="barChart" style="height:300px;"></canvas>
           </div>
         </div>
@@ -34,7 +46,29 @@
       </div>
     </div>
 
-    
+
+    <script>
+      $(document).ready(function () {
+        $('#revenueYearId').on('change', function () {
+          var year = $(this).val();
+          $.ajax({
+            type: 'POST',
+            url: '/admin/getQuarterRevenue',
+            data: {year},
+            success: function (response) {
+              let barValue = [];
+              for(let i=0;i<response.length;i++){
+                barValue.push(response[i].revenue);
+              }
+              chart.data.datasets[0].data = barValue;
+              chart.update();
+              }
+            });
+        });
+      });
+    </script>
+
+
 
     <script>
 
@@ -42,24 +76,30 @@
       let chart = new Chart(barChart, {
         type: 'bar',
         data: {
-          labels: ['Last week', '1 Month','3 months', ' 6 months', '1 Year'],
+          labels: ['Quarter 1', 'Quarter 2', 'Quarter 3', ' Quarter 4'],
           datasets: [{
             label: 'Revenue generated',
-            data: [
-              {{ week.[0].sum }},
+            {{!-- data: [
+            {{ week.[0].sum }},
           {{ month.[0].sum }},
-          {{threeMonth.[0].sum}},
-          {{sixMonth.[0].sum}},
-             {{ year.[0].sum }}
-            ],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)'
-      ]
+      { { threeMonth.[0].sum } },
+      { { sixMonth.[0].sum } },
+      { { year.[0].sum } }
+            ], --}}
+      data: [
+        {{ quartrData.[0].revenue }},
+        {{ quartrData.[1].revenue }},
+        {{ quartrData.[2].revenue }},
+        {{ quartrData.[3].revenue }},
+      ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(255, 159, 64, 0.5)'
+        ]
           }]
         },
       options: { }
