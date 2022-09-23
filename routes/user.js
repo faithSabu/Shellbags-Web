@@ -72,9 +72,7 @@ router.post('/validateRegisterForm', (req, res) => {
 })
 
 router.post('/checkEmailExist',(req,res)=>{
-  console.log(req.body,'jjjjjjjjjjjjjj');
   userHelpers.checkEmailExist(req.body).then((response)=>{
-    console.log(response);
     res.json(response)
   })
 })
@@ -369,7 +367,6 @@ router.post('/applyCoupon', async (req, res) => {
 
 router.get('/myAccount', verifyUserLogin, getCategory, (req, res) => {
   userHelpers.getUserData(req.session.user._id).then((data) => {
-    console.log(data);
     res.render('user/myAccount', { data,user: req.session.user, cartCount: req.session.cartCount ,category: req.session.category})
   })
 })
@@ -404,7 +401,6 @@ router.get('/order-history', verifyUserLogin, getCategory, async (req, res) => {
 
 router.get('/myAddress', verifyUserLogin, getCategory, async (req, res) => {
   userHelpers.getAddress(req.session.user._id).then((address) => {
-    console.log(address);
     res.render('user/myAddress', { address, user: req.session.user, cartCount: req.session.cartCount,category: req.session.category })
   })
 })

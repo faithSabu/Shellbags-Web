@@ -45,10 +45,10 @@ function newAdmin() {
   })
 }
 
-router.use((req, res, next) => {
-  req.session.admin = true;
-  next();
-})
+// router.use((req, res, next) => {
+//   req.session.admin = true;
+//   next();
+// })
 
 
 const verifyAdminLogin = (req, res, next) => {
@@ -321,11 +321,5 @@ router.get('/logout', (req, res) => {
   req.session.admin = false;
   res.redirect('/admin');
 })
-
-router.get('/test', (req, res) => {
-
-})
-
-
 
 module.exports = router;
