@@ -28,6 +28,19 @@ const verifyUserLogin = async (req, res, next) => {
   else res.redirect('/login');
 }
 
+// router.use((req, res, next) => {
+//   req.session.user = {
+//     _id: '62e8c3d0074b97047dca41fc',
+//     fullName: 'shambu',
+//     email: 'sha@gmail.com',
+//     mobile: '9746369882',
+//     password: '$2b$10$AICWOd9dX4TLnLsATYxCteLm5Rv2oAeG4UdrJxIhWo1g3gUh27mcC',
+//     block: false
+//   }
+//   next();
+// })
+
+
 const getCategory = async (req, res, next) => {
   let category = await categoryHelpers.getAllCategories()
   req.session.category = category;
@@ -54,6 +67,14 @@ router.get('/', getCategory, function (req, res, next) {
 router.post('/validateRegisterForm', (req, res) => {
   userHelpers.validateRegiserForm(req.body).then((response) => {
     req.session.userData = req.body;
+    res.json(response)
+  })
+})
+
+router.post('/checkEmailExist',(req,res)=>{
+  console.log(req.body,'jjjjjjjjjjjjjj');
+  userHelpers.checkEmailExist(req.body).then((response)=>{
+    console.log(response);
     res.json(response)
   })
 })

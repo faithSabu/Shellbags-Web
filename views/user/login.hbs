@@ -77,7 +77,7 @@
                                 <div class="input-box">
                                     <label class="control-label">E-Mail</label>
                                     <input type="email" class="info" placeholder="E-Mail" value="" name="email"
-                                        id="email" onchange="validateEmail()" required>
+                                        id="email" onchange="validateEmail()" on required>
                                     <label id="valemail"></label>
                                 </div>
                                 <div class="input-box">
@@ -137,9 +137,22 @@
                 var regx = /^([a-zA-Z0-9\.-_ ]+)@([a-zA-Z0-9]+).([a-zA-Z]{2,20})(.[a-zA-Z]{2,5})$/;
                 if (regx.test(text)) {
                     email = 1;
+                    $.ajax({
+            type: 'POST',
+            url: '/checkEmailExist',
+            data: {text},
+            success: function (res) {
+                if (res.exist) {
+               document.getElementById("valemail").innerHTML = "User exist!!";
+                    document.getElementById("valemail").style.visibility = "visible";
+                    document.getElementById("valemail").style.color = "red";
+                }else{
                     document.getElementById("valemail").innerHTML = "Valid";
                     document.getElementById("valemail").style.visibility = "visible";
                     document.getElementById("valemail").style.color = "green";
+                }
+            }
+        });
                 }
                 else {
                     email = 0;
@@ -166,8 +179,7 @@
             }
             function validatePassword() {
                 const text1 = document.getElementById("password").value;
-                {{!-- var regx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/; --}}
-                var regx = /^[0-9 a-z]+$/
+                var regx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
                 if (regx.test(text1)) {
                     password = 1;
                     document.getElementById("valPassword").innerHTML = "Valid";
@@ -177,6 +189,7 @@
                 else {
                     password = 0;
                     document.getElementById("valPassword").innerHTML = "In-Valid Entry";
+                    {{!-- document.getElementById("passwordCond1").innerHTML = "In-Valid Entry"; --}}
                     document.getElementById("valPassword").style.visibility = "visible";
                     document.getElementById("valPassword").style.color = "red";
                 }
@@ -186,13 +199,13 @@
                 const text1 = document.getElementById("password").value;
                 if (text1 === text2) {
                     rePassword = 1;
-                    document.getElementById("valRePassword").innerHTML = "Valid";
+                    document.getElementById("valRePassword").innerHTML = "Password matched";
                     document.getElementById("valRePassword").style.visibility = "visible";
                     document.getElementById("valRePassword").style.color = "green";
                 }
                 else {
                     rePassword = 0;
-                    document.getElementById("valRePassword").innerHTML = "In-Valid Entry";
+                    document.getElementById("valRePassword").innerHTML = "Password didn't match";
                     document.getElementById("valRePassword").style.visibility = "visible";
                     document.getElementById("valRePassword").style.color = "red";
                 }

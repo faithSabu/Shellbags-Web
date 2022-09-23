@@ -106,11 +106,7 @@ module.exports = {
                     $project: { revenue: 1, _id: 0 }
                 }
                 ]).toArray();
-                // monthlyRevenue.push(a)
-                // monthlyRevenue.i = a; // only one
                 monthlyRevenue.push([a[0]]);
-                // monthlyRevenue[i] = a;  //not good
-
             }
             console.log(monthlyRevenue);
             resolve(monthlyRevenue)

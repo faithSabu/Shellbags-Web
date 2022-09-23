@@ -295,7 +295,7 @@ $(document).ready(function (event) {
             url: '/validateRegisterForm',
             data: $('#registerFormId').serialize(),
             success: function (res) {
-                if (res.fullName || res.email || res.moblie || res.password) {
+                if (res.fullName || res.email || res.moblie || res.password || res.rePassword) {
                     swal({
                         title: "Please Enter Valid Details",
                         icon: "warning",

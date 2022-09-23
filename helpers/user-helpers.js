@@ -568,7 +568,7 @@ module.exports = {
                 })
             },
             validateRegiserForm:(data)=>{
-                return new Promise((resolve,reject)=>{
+                return new Promise(async(resolve,reject)=>{
                     let invalid = {};
                     var regx = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
                     if(regx.test(data.fullName)){
@@ -578,7 +578,12 @@ module.exports = {
                     }
                     var regx = /^([a-zA-Z0-9\.-_ ]+)@([a-zA-Z0-9]+).([a-zA-Z]{2,20})(.[a-zA-Z]{2,5})$/;
                     if(regx.test(data.email)){
+                    let emailExist = await db.get().collection(collection.USER_COLLECTION).find({email:data.email}).toArray();
+                    if(emailExist[0]){
+                        invalid.email = true;
+                    }else{
                         invalid.email = false;
+                    }
                     }else{
                         invalid.email = true;
                     }
@@ -600,6 +605,18 @@ module.exports = {
                         invalid.rePassword = true;
                     }
                     resolve(invalid)
+                })
+            },
+            checkEmailExist:(data)=>{
+                return new Promise(async(resolve,reject)=>{
+                    let user = {};
+                    let email = await db.get().collection(collection.USER_COLLECTION).find({email:data.text}).toArray()
+                    if(email[0]){
+                        user.exist = true;
+                        resolve(user)
+                    }else{
+                        resolve(user)
+                    }
                 })
             }
 }
